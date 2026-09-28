@@ -22,8 +22,9 @@ export const ScrollBridgeHUD: React.FC = () => {
     { id: 'contact', label: 'Contact', name: 'Proposal' },
   ];
 
-  // Canvas particle stream effect
+  // Canvas particle stream effect (desktop only)
   useEffect(() => {
+    if (typeof window === 'undefined' || window.innerWidth < 1024) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -92,8 +93,9 @@ export const ScrollBridgeHUD: React.FC = () => {
     };
   }, [themeConfig.accent, themeConfig.secondaryAccent]);
 
-  // Track active section and scroll progress
+  // Track active section and scroll progress (desktop only)
   useEffect(() => {
+    if (typeof window === 'undefined' || window.innerWidth < 1024) return;
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const current = window.scrollY;

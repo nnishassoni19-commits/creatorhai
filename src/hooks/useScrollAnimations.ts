@@ -4,52 +4,52 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function useScrollAnimations() {
-  useEffect(() => {
-    // Only run in browser environment
-    if (typeof window === 'undefined') return;
+export function initScrollAnimations(): () => void {
+  if (typeof window === 'undefined' || window.innerWidth < 1024) {
+    return () => {};
+  }
 
-    let ctx: ReturnType<typeof gsap.context> | null = null;
-    let idleId: number | null = null;
-    let timerId: ReturnType<typeof setTimeout> | null = null;
+  let ctx: ReturnType<typeof gsap.context> | null = null;
+  let idleId: number | null = null;
+  let timerId: ReturnType<typeof setTimeout> | null = null;
 
-    const setupAnimations = () => {
-      // Avoid running heavy scrubs on constrained mobile CPU during critical load
-      const isMobile = window.innerWidth < 768;
+  const setupAnimations = () => {
+    if (typeof window === 'undefined' || window.innerWidth < 1024) return;
+    const isMobile = false;
 
-      ctx = gsap.context(() => {
-        // ========================================================
-        // 1. HERO 3D SCROLL SCRUB & DECONSTRUCTION
-        // ========================================================
-        const heroSection = document.getElementById('hero-section');
-        const heroPhoneMockup = document.getElementById('hero-phone-mockup');
-        const heroCardLeft = document.getElementById('hero-float-card-left');
-        const heroCardRight = document.getElementById('hero-float-card-right');
-        const heroTitle = document.getElementById('hero-headline');
-        const heroStats = document.querySelectorAll('.hero-quick-stat');
+    ctx = gsap.context(() => {
+      // ========================================================
+      // 1. HERO 3D SCROLL SCRUB & DECONSTRUCTION
+      // ========================================================
+      const heroSection = document.getElementById('hero-section');
+      const heroPhoneMockup = document.getElementById('hero-phone-mockup');
+      const heroCardLeft = document.getElementById('hero-float-card-left');
+      const heroCardRight = document.getElementById('hero-float-card-right');
+      const heroTitle = document.getElementById('hero-headline');
+      const heroStats = document.querySelectorAll('.hero-quick-stat');
 
-        if (heroSection) {
-          const heroTl = gsap.timeline({
-            scrollTrigger: {
-              trigger: heroSection,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: isMobile ? false : 1.2,
+      if (heroSection) {
+        const heroTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: heroSection,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.2,
+          },
+        });
+
+        if (heroTitle) {
+          heroTl.to(
+            heroTitle,
+            {
+              y: -60,
+              opacity: 0.35,
+              scale: 0.94,
+              ease: 'none',
             },
-          });
-
-          if (heroTitle) {
-            heroTl.to(
-              heroTitle,
-              {
-                y: isMobile ? -30 : -60,
-                opacity: 0.35,
-                scale: 0.94,
-                ease: 'none',
-              },
-              0
-            );
-          }
+            0
+          );
+        }
 
           if (heroPhoneMockup && !isMobile) {
             heroTl.to(
@@ -408,16 +408,21 @@ export function useScrollAnimations() {
       }, 500);
     }
 
-    return () => {
-      if (idleId !== null && 'cancelIdleCallback' in window) {
-        (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
-      }
-      if (timerId !== null) {
-        clearTimeout(timerId);
-      }
-      if (ctx) {
-        ctx.revert();
-      }
-    };
+  return () => {
+    if (idleId !== null && 'cancelIdleCallback' in window) {
+      (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
+    }
+    if (timerId !== null) {
+      clearTimeout(timerId);
+    }
+    if (ctx) {
+      ctx.revert();
+    }
+  };
+}
+
+export function useScrollAnimations() {
+  useEffect(() => {
+    return initScrollAnimations();
   }, []);
 }

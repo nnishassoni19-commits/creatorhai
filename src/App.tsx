@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { AgencyProvider, useAgency } from './context/AgencyContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -16,10 +16,8 @@ import { LocalActivations } from './components/LocalActivations';
 import { MoreExperienceGrid } from './components/MoreExperienceGrid';
 import { WhyUsSection } from './components/WhyUsSection';
 import { ContactSection } from './components/ContactSection';
-import { initSmoothScroll, stopLenis, startLenis } from './lib/lenis';
-import { useScrollAnimations } from './hooks/useScrollAnimations';
 
-// Lazy-load non-critical, below-the-fold, and interactive overlay components
+// Lazy-load non-critical desktop and interactive overlay components
 const ThreeCanvasBackground = lazy(() =>
   import('./components/ThreeCanvasBackground').then((m) => ({ default: m.ThreeCanvasBackground }))
 );
@@ -35,26 +33,47 @@ const EditBar = lazy(() =>
 
 const AppContent: React.FC = () => {
   const { themeConfig, isDeckMode, isEditMode } = useAgency();
+  const [isDesktop, setIsDesktop] = useState(false);
 
-  // Initialize master GSAP scroll-driven deconstruction & depth timelines after idle
-  useScrollAnimations();
-
-  // Initialize Lenis smooth inertia scrolling
   useEffect(() => {
-    const lenis = initSmoothScroll();
+    if (typeof window === 'undefined') return;
+    const desktopCheck = window.innerWidth >= 1024 && !window.matchMedia('(pointer: coarse)').matches;
+    setIsDesktop(desktopCheck);
+
+    if (!desktopCheck) return;
+
+    // On desktop devices with mouse, dynamically load Lenis inertia and GSAP scrubs after idle
+    let cleanupScroll: (() => void) | null = null;
+    let cleanupLenis: (() => void) | null = null;
+
+    const timer = setTimeout(() => {
+      import('./lib/lenis').then(({ initSmoothScroll, destroyLenis }) => {
+        initSmoothScroll();
+        cleanupLenis = () => destroyLenis();
+      });
+      import('./hooks/useScrollAnimations').then(({ initScrollAnimations }) => {
+        cleanupScroll = initScrollAnimations();
+      });
+    }, 1500);
+
     return () => {
-      lenis?.destroy();
+      clearTimeout(timer);
+      cleanupLenis?.();
+      cleanupScroll?.();
     };
   }, []);
 
-  // Pause smooth scroll when Pitch Deck modal is active
+  // Pause smooth scroll when Pitch Deck modal is active (Desktop only)
   useEffect(() => {
-    if (isDeckMode) {
-      stopLenis();
-    } else {
-      startLenis();
-    }
-  }, [isDeckMode]);
+    if (!isDesktop) return;
+    import('./lib/lenis').then(({ stopLenis, startLenis }) => {
+      if (isDeckMode) {
+        stopLenis();
+      } else {
+        startLenis();
+      }
+    });
+  }, [isDeckMode, isDesktop]);
 
   return (
     <div
@@ -68,10 +87,12 @@ const AppContent: React.FC = () => {
         }
       `}</style>
 
-      {/* Interactive WebGL / Three.js 3D Constellation & Bridge Mesh (Lazy) */}
-      <Suspense fallback={null}>
-        <ThreeCanvasBackground />
-      </Suspense>
+      {/* Interactive WebGL / Three.js 3D Constellation & Bridge Mesh (Desktop Only, Lazy) */}
+      {isDesktop && (
+        <Suspense fallback={null}>
+          <ThreeCanvasBackground />
+        </Suspense>
+      )}
 
       {/* Navigation Header */}
       <Navbar />
@@ -108,10 +129,12 @@ const AppContent: React.FC = () => {
         <ContactSection />
       </main>
 
-      {/* Canvas-based Real-time Waveform Stream & Scroll Progress HUD */}
-      <Suspense fallback={null}>
-        <ScrollBridgeHUD />
-      </Suspense>
+      {/* Canvas-based Real-time Waveform Stream & Scroll Progress HUD (Desktop Only, Lazy) */}
+      {isDesktop && (
+        <Suspense fallback={null}>
+          <ScrollBridgeHUD />
+        </Suspense>
+      )}
 
       {/* Canva 16:9 Pitch Deck Presentation Mode (Mounted only when active) */}
       {isDeckMode && (

@@ -35,12 +35,7 @@ export const Hero: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Peaceful Typography & Intent */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 text-left space-y-6"
-          >
+          <div className="lg:col-span-7 text-left space-y-6">
             {/* Tagline Badge */}
             <div
               className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-xs font-semibold tracking-wide uppercase transition-colors"
@@ -105,13 +100,10 @@ export const Hero: React.FC = () => {
                 Our 9-Step Approach
               </a>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Column: Visual Reel / Proof Mockup Stack */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          <div
             className="lg:col-span-5 relative"
             style={{ perspective: 1000 }}
           >
@@ -122,7 +114,7 @@ export const Hero: React.FC = () => {
                 <div className="relative rounded-[30px] overflow-hidden bg-black aspect-[9/16] border border-white/10">
                   {/* Creator Video Still */}
                   <img
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop"
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=500&auto=format&fit=crop"
                     alt="CREATOR HAI Creator Reel Preview - Best Influencer Marketing Agency Showcase"
                     width="360"
                     height="640"
@@ -207,7 +199,7 @@ export const Hero: React.FC = () => {
                 <div className="text-[11px] text-neutral-400">Single campaign cycle</div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Quick Numbers Bar with on-scroll reveals */}
