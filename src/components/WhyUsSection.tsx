@@ -213,18 +213,23 @@ export const WhyUsSection: React.FC = () => {
                   className="p-4 rounded-2xl bg-black/40 border border-white/10 text-left space-y-3"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-white uppercase">{item.title}</span>
+                    <label htmlFor={`weight-slider-${item.id}`} className="text-xs font-bold text-white uppercase cursor-pointer">
+                      {item.title}
+                    </label>
                     <span className="text-xs font-mono font-bold text-neutral-200">
                       {currentVal}%
                     </span>
                   </div>
 
                   <input
+                    id={`weight-slider-${item.id}`}
+                    name={`weight-slider-${item.id}`}
                     type="range"
                     min="60"
                     max="100"
                     value={currentVal}
                     onChange={(e) => handleSliderChange(item.id, Number(e.target.value))}
+                    aria-label={`${item.title} weight percentage in compatibility formula`}
                     className="w-full accent-white cursor-pointer h-1.5 bg-neutral-800 rounded-lg"
                   />
 

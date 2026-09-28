@@ -142,6 +142,7 @@ export const ApproachPipeline: React.FC = () => {
               <button
                 key={item.step}
                 onClick={() => setActiveStep(idx)}
+                aria-label={`Select step ${item.step}: ${item.title}`}
                 className={`pipeline-step-card p-3 sm:p-3.5 rounded-2xl border text-left transition-all duration-300 flex flex-col justify-between relative group ${
                   isSelected
                     ? 'bg-[#181920] border-white/40 shadow-xl'
@@ -248,12 +249,14 @@ export const ApproachPipeline: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setActiveStep((prev) => (prev > 0 ? prev - 1 : 8))}
+                    aria-label="Go to previous framework step"
                     className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors"
                   >
                     Previous
                   </button>
                   <button
                     onClick={() => setActiveStep((prev) => (prev < 8 ? prev + 1 : 0))}
+                    aria-label="Go to next framework step"
                     className="px-4 py-1.5 rounded-lg text-xs font-bold transition-colors"
                     style={{
                       backgroundColor: themeConfig.accent,

@@ -80,6 +80,7 @@ export const UgcPortfolio: React.FC = () => {
                 {/* Play Trigger */}
                 <button
                   onClick={() => setActiveUgc(ugc)}
+                  aria-label={`Play UGC video ad preview for ${ugc.brand}`}
                   className="absolute inset-0 flex items-center justify-center cursor-pointer group-hover:scale-110 transition-transform"
                 >
                   <div
@@ -168,6 +169,7 @@ export const UgcPortfolio: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setActiveUgc(null)}
+                  aria-label="Close UGC video preview"
                   className="text-neutral-400 hover:text-white p-1 rounded-full transition-colors"
                 >
                   ✕
@@ -198,6 +200,7 @@ export const UgcPortfolio: React.FC = () => {
                 <span>Ready for Meta / TikTok / YouTube</span>
                 <button
                   onClick={() => setActiveUgc(null)}
+                  aria-label="Close preview modal"
                   className="px-4 py-2 rounded-xl text-xs font-bold text-black shadow-md"
                   style={{ backgroundColor: themeConfig.accent }}
                 >

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { AgencyProvider, useAgency } from './context/AgencyContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -16,24 +16,34 @@ import { LocalActivations } from './components/LocalActivations';
 import { MoreExperienceGrid } from './components/MoreExperienceGrid';
 import { WhyUsSection } from './components/WhyUsSection';
 import { ContactSection } from './components/ContactSection';
-import { PitchDeckModal } from './components/PitchDeckModal';
-import { EditBar } from './components/EditBar';
-import { ThreeCanvasBackground } from './components/ThreeCanvasBackground';
-import { ScrollBridgeHUD } from './components/ScrollBridgeHUD';
 import { initSmoothScroll, stopLenis, startLenis } from './lib/lenis';
 import { useScrollAnimations } from './hooks/useScrollAnimations';
 
-const AppContent: React.FC = () => {
-  const { themeConfig, isDeckMode } = useAgency();
+// Lazy-load non-critical, below-the-fold, and interactive overlay components
+const ThreeCanvasBackground = lazy(() =>
+  import('./components/ThreeCanvasBackground').then((m) => ({ default: m.ThreeCanvasBackground }))
+);
+const ScrollBridgeHUD = lazy(() =>
+  import('./components/ScrollBridgeHUD').then((m) => ({ default: m.ScrollBridgeHUD }))
+);
+const PitchDeckModal = lazy(() =>
+  import('./components/PitchDeckModal').then((m) => ({ default: m.PitchDeckModal }))
+);
+const EditBar = lazy(() =>
+  import('./components/EditBar').then((m) => ({ default: m.EditBar }))
+);
 
-  // Initialize master GSAP scroll-driven deconstruction & depth timelines
+const AppContent: React.FC = () => {
+  const { themeConfig, isDeckMode, isEditMode } = useAgency();
+
+  // Initialize master GSAP scroll-driven deconstruction & depth timelines after idle
   useScrollAnimations();
 
   // Initialize Lenis smooth inertia scrolling
   useEffect(() => {
     const lenis = initSmoothScroll();
     return () => {
-      lenis.destroy();
+      lenis?.destroy();
     };
   }, []);
 
@@ -58,13 +68,15 @@ const AppContent: React.FC = () => {
         }
       `}</style>
 
-      {/* Interactive WebGL / Three.js 3D Constellation & Bridge Mesh */}
-      <ThreeCanvasBackground />
+      {/* Interactive WebGL / Three.js 3D Constellation & Bridge Mesh (Lazy) */}
+      <Suspense fallback={null}>
+        <ThreeCanvasBackground />
+      </Suspense>
 
       {/* Navigation Header */}
       <Navbar />
 
-      <main className="relative z-10">
+      <main className="relative z-10" id="main-content">
         {/* Hero Section */}
         <Hero />
 
@@ -97,13 +109,23 @@ const AppContent: React.FC = () => {
       </main>
 
       {/* Canvas-based Real-time Waveform Stream & Scroll Progress HUD */}
-      <ScrollBridgeHUD />
+      <Suspense fallback={null}>
+        <ScrollBridgeHUD />
+      </Suspense>
 
-      {/* Canva 16:9 Pitch Deck Presentation Mode */}
-      <PitchDeckModal />
+      {/* Canva 16:9 Pitch Deck Presentation Mode (Mounted only when active) */}
+      {isDeckMode && (
+        <Suspense fallback={null}>
+          <PitchDeckModal />
+        </Suspense>
+      )}
 
       {/* Floating Edit Controls Bar */}
-      <EditBar />
+      {isEditMode && (
+        <Suspense fallback={null}>
+          <EditBar />
+        </Suspense>
+      )}
     </div>
   );
 };

@@ -91,6 +91,7 @@ export const PitchDeckModal: React.FC = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={handlePrint}
+            aria-label="Export or Print Pitch Deck"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-200 transition-colors"
             title="Print or Save as PDF"
           >
@@ -100,6 +101,7 @@ export const PitchDeckModal: React.FC = () => {
 
           <button
             onClick={() => setIsDeckMode(false)}
+            aria-label="Exit Deck Mode"
             className="p-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white transition-colors"
             title="Exit Deck Mode (Esc)"
           >
@@ -593,6 +595,7 @@ export const PitchDeckModal: React.FC = () => {
           <button
             onClick={() => setCurrentSlide((prev) => Math.max(prev - 1, 0))}
             disabled={currentSlide === 0}
+            aria-label="Previous presentation slide"
             className="px-4 py-2 rounded-xl bg-neutral-900 border border-white/10 disabled:opacity-30 hover:bg-neutral-800 text-white font-bold flex items-center gap-1.5 transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -602,6 +605,7 @@ export const PitchDeckModal: React.FC = () => {
           <button
             onClick={() => setCurrentSlide((prev) => Math.min(prev + 1, totalSlides - 1))}
             disabled={currentSlide === totalSlides - 1}
+            aria-label="Next presentation slide"
             className="px-5 py-2 rounded-xl font-bold flex items-center gap-1.5 disabled:opacity-30 transition-all"
             style={{
               backgroundColor: themeConfig.accent,
@@ -619,6 +623,7 @@ export const PitchDeckModal: React.FC = () => {
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
               className={`h-2 rounded-full transition-all ${
                 currentSlide === idx ? 'w-6' : 'w-2 bg-neutral-700 hover:bg-neutral-500'
               }`}

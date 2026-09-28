@@ -79,6 +79,7 @@ export const MoreExperienceGrid: React.FC = () => {
                 <button
                   key={tab}
                   onClick={() => setSelectedFilter(tab)}
+                  aria-label={`Filter campaigns by ${tab} industry category`}
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                     isSelected
                       ? 'bg-white text-black shadow-md'
@@ -120,9 +121,9 @@ export const MoreExperienceGrid: React.FC = () => {
                         >
                           <Icon className="w-5 h-5" />
                         </div>
-                        <span className="font-display font-extrabold text-sm text-white tracking-wide">
+                        <h3 className="font-display font-extrabold text-sm text-white tracking-wide">
                           {cat.category}
-                        </span>
+                        </h3>
                       </div>
                       <span className="font-mono text-xs text-neutral-400 font-bold">
                         0{cIdx + 1}

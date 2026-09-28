@@ -223,6 +223,7 @@ Notes: ${formState.message || 'Custom shortlist requested'}`;
                 <button
                   key={preset.id}
                   onClick={() => handleSelectPreset(preset)}
+                  aria-label={`Select ${preset.label} campaign blueprint`}
                   className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden group ${
                     isSelected
                       ? 'bg-[#181a24] border-white/40 shadow-2xl scale-[1.01]'
@@ -357,6 +358,7 @@ Notes: ${formState.message || 'Custom shortlist requested'}`;
                           type="button"
                           key={scale.id}
                           onClick={() => setFormState({ ...formState, creatorScale: scale.id })}
+                          aria-label={`Select creator scale: ${scale.label} (${scale.tier})`}
                           className={`p-3 rounded-xl border text-center transition-all ${
                             isScaleSelected
                               ? 'bg-white text-black font-bold border-white shadow-lg'
@@ -384,6 +386,7 @@ Notes: ${formState.message || 'Custom shortlist requested'}`;
                           type="button"
                           key={opt.id}
                           onClick={() => toggleDeliverable(opt.id)}
+                          aria-label={`Toggle deliverable: ${opt.label}`}
                           className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 border ${
                             isChecked
                               ? 'bg-neutral-800 text-white border-white/50 shadow-md font-bold'
@@ -555,6 +558,8 @@ Notes: ${formState.message || 'Custom shortlist requested'}`;
                     {isEditMode ? (
                       <input
                         type="email"
+                        id="edit-agency-email"
+                        aria-label="Edit executive agency email"
                         value={contactInfo.email}
                         onChange={(e) => updateContactInfo({ email: e.target.value })}
                         className="bg-black/50 border border-white/20 px-2 py-0.5 rounded text-sm text-white focus:outline-none focus:border-white"
@@ -568,6 +573,7 @@ Notes: ${formState.message || 'Custom shortlist requested'}`;
                 </div>
                 <button
                   onClick={() => handleCopy(contactInfo.email, 'email')}
+                  aria-label="Copy agency executive email"
                   className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 transition-colors"
                   title="Copy Email"
                 >
@@ -586,6 +592,8 @@ Notes: ${formState.message || 'Custom shortlist requested'}`;
                     {isEditMode ? (
                       <input
                         type="text"
+                        id="edit-agency-phone"
+                        aria-label="Edit direct agency phone number"
                         value={contactInfo.phone}
                         onChange={(e) => updateContactInfo({ phone: e.target.value })}
                         className="bg-black/50 border border-white/20 px-2 py-0.5 rounded text-sm text-white focus:outline-none focus:border-white"
@@ -599,6 +607,7 @@ Notes: ${formState.message || 'Custom shortlist requested'}`;
                 </div>
                 <button
                   onClick={() => handleCopy(contactInfo.phone, 'phone')}
+                  aria-label="Copy agency direct phone number"
                   className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 transition-colors"
                   title="Copy Phone"
                 >
@@ -626,6 +635,7 @@ Notes: ${formState.message || 'Custom shortlist requested'}`;
                 </div>
                 <button
                   onClick={() => handleCopy(contactInfo.instagram, 'insta')}
+                  aria-label="Copy agency Instagram handle"
                   className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 transition-colors"
                   title="Copy Instagram"
                 >
@@ -648,6 +658,7 @@ Notes: ${formState.message || 'Custom shortlist requested'}`;
                 </div>
                 <button
                   onClick={() => handleCopy(contactInfo.website, 'web')}
+                  aria-label="Copy agency website address"
                   className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 transition-colors"
                   title="Copy Website"
                 >

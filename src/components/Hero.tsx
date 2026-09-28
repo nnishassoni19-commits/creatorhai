@@ -127,6 +127,8 @@ export const Hero: React.FC = () => {
                     width="360"
                     height="640"
                     loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                     className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700"
                   />
 

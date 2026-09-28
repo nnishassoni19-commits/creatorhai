@@ -129,6 +129,7 @@ export const Navbar: React.FC = () => {
             {/* Canva Pitch Deck Mode Toggle */}
             <button
               onClick={() => setIsDeckMode(true)}
+              aria-label="Open full-screen pitch deck view"
               className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg bg-neutral-900 border border-neutral-700/80 text-white hover:border-neutral-500 hover:bg-neutral-800 transition-all shadow-sm"
               title="Open full-screen 2-page spread pitch deck view"
             >
@@ -139,6 +140,7 @@ export const Navbar: React.FC = () => {
             {/* Live Edit Mode Toggle */}
             <button
               onClick={() => setIsEditMode(!isEditMode)}
+              aria-label={isEditMode ? 'Exit inline editing mode' : 'Enter inline editing mode'}
               className={`flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg transition-all border ${
                 isEditMode
                   ? 'bg-white text-black border-white shadow-lg'
@@ -154,6 +156,8 @@ export const Navbar: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => setShowThemeMenu(!showThemeMenu)}
+                aria-label="Change color theme palette"
+                aria-expanded={showThemeMenu}
                 className="flex items-center gap-2 px-2.5 py-2 rounded-lg bg-neutral-900 border border-neutral-700/80 text-neutral-200 hover:text-white hover:border-neutral-500 transition-all shadow-sm"
                 title="Change high-contrast color palette"
               >
@@ -194,6 +198,7 @@ export const Navbar: React.FC = () => {
                             setColorTheme(th.id);
                             setShowThemeMenu(false);
                           }}
+                          aria-label={`Select ${th.label} theme`}
                           className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all ${
                             isSelected
                               ? 'bg-white/15 text-white font-bold border border-white/20 shadow-inner'
@@ -287,6 +292,7 @@ export const Navbar: React.FC = () => {
                   <button
                     key={th.id}
                     onClick={() => setColorTheme(th.id)}
+                    aria-label={`Switch to ${th.label} theme`}
                     className={`flex items-center gap-2 p-2 rounded-lg border text-left text-[11px] ${
                       colorTheme === th.id
                         ? 'bg-white/10 border-white/40 text-white font-bold'
@@ -314,6 +320,7 @@ export const Navbar: React.FC = () => {
                 setIsEditMode(!isEditMode);
                 setMobileMenuOpen(false);
               }}
+              aria-label={isEditMode ? 'Exit inline editing mode' : 'Enter inline editing mode'}
               className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold bg-neutral-800 text-white border border-neutral-700"
             >
               <Edit3 className="w-4 h-4" />

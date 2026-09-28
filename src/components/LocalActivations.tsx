@@ -117,6 +117,7 @@ export const LocalActivations: React.FC = () => {
                 <button
                   key={city}
                   onClick={() => setSelectedCity(city)}
+                  aria-label={`Filter by ${city} retail locations`}
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                     isSelected
                       ? 'bg-white text-black shadow-lg font-bold'
@@ -171,9 +172,9 @@ export const LocalActivations: React.FC = () => {
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <h4 className="text-xl font-display font-extrabold text-white tracking-tight">
+                    <h3 className="text-xl font-display font-extrabold text-white tracking-tight">
                       {loc.brand}
-                    </h4>
+                    </h3>
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/5 border border-white/10 text-neutral-300">
                       Live Verified
                     </span>

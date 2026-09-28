@@ -9,11 +9,15 @@ export function useScrollAnimations() {
     // Only run in browser environment
     if (typeof window === 'undefined') return;
 
-    // Small delay to ensure DOM is fully mounted
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
+    let ctx: ReturnType<typeof gsap.context> | null = null;
+    let idleId: number | null = null;
+    let timerId: ReturnType<typeof setTimeout> | null = null;
 
-      const ctx = gsap.context(() => {
+    const setupAnimations = () => {
+      // Avoid running heavy scrubs on constrained mobile CPU during critical load
+      const isMobile = window.innerWidth < 768;
+
+      ctx = gsap.context(() => {
         // ========================================================
         // 1. HERO 3D SCROLL SCRUB & DECONSTRUCTION
         // ========================================================
@@ -30,7 +34,7 @@ export function useScrollAnimations() {
               trigger: heroSection,
               start: 'top top',
               end: 'bottom top',
-              scrub: 1.2,
+              scrub: isMobile ? false : 1.2,
             },
           });
 
@@ -38,7 +42,7 @@ export function useScrollAnimations() {
             heroTl.to(
               heroTitle,
               {
-                y: -60,
+                y: isMobile ? -30 : -60,
                 opacity: 0.35,
                 scale: 0.94,
                 ease: 'none',
@@ -47,7 +51,7 @@ export function useScrollAnimations() {
             );
           }
 
-          if (heroPhoneMockup) {
+          if (heroPhoneMockup && !isMobile) {
             heroTl.to(
               heroPhoneMockup,
               {
@@ -62,7 +66,7 @@ export function useScrollAnimations() {
             );
           }
 
-          if (heroCardLeft) {
+          if (heroCardLeft && !isMobile) {
             heroTl.to(
               heroCardLeft,
               {
@@ -76,7 +80,7 @@ export function useScrollAnimations() {
             );
           }
 
-          if (heroCardRight) {
+          if (heroCardRight && !isMobile) {
             heroTl.to(
               heroCardRight,
               {
@@ -90,7 +94,7 @@ export function useScrollAnimations() {
             );
           }
 
-          if (heroStats.length > 0) {
+          if (heroStats.length > 0 && !isMobile) {
             heroTl.to(
               heroStats,
               {
@@ -389,12 +393,31 @@ export function useScrollAnimations() {
           );
         }
       });
+    };
 
-      return () => {
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      idleId = (window as unknown as { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(
+        () => {
+          setupAnimations();
+        },
+        { timeout: 1500 }
+      );
+    } else {
+      timerId = setTimeout(() => {
+        setupAnimations();
+      }, 500);
+    }
+
+    return () => {
+      if (idleId !== null && 'cancelIdleCallback' in window) {
+        (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
+      }
+      if (timerId !== null) {
+        clearTimeout(timerId);
+      }
+      if (ctx) {
         ctx.revert();
-      };
-    }, 100);
-
-    return () => clearTimeout(timer);
+      }
+    };
   }, []);
 }
