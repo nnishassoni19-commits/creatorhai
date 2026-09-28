@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #0c0d10;
+    color: #f3f4f6;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Gentle peaceful floating keyframes */
+@keyframes peacefulFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes peacefulBreathe {
+  0%, 100% {
+    opacity: 0.18;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.28;
+    transform: scale(1.04);
+  }
+}
+
+.animate-peaceful-float {
+  animation: peacefulFloat 6s ease-in-out infinite;
+}
+
+.animate-peaceful-breathe {
+  animation: peacefulBreathe 8s ease-in-out infinite;
+}
+
+/* Custom serene scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0e0f14;
+}
+::-webkit-scrollbar-thumb {
+  background: #23242c;
+  border-radius: 9999px;
+  border: 2px solid #0e0f14;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #383946;
+}
+
+/* Print styles for slide deck export */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-break-after {
+    page-break-after: always;
+    break-after: page;
+  }
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+}
+
