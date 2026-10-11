@@ -1,12 +1,63 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React from 'react';
+import { motion } from 'motion/react';
 import { useAgency } from '../context/AgencyContext';
-import { Play, ShieldCheck } from 'lucide-react';
-import { UgcCampaign } from '../types';
+import {
+  Video,
+  PlaySquare,
+  Sparkles,
+  MessageSquare,
+  Package,
+  Layers,
+  ShieldCheck,
+  Film,
+  ArrowRight
+} from 'lucide-react';
 
 export const UgcPortfolio: React.FC = () => {
-  const { ugcCampaigns, themeConfig } = useAgency();
-  const [activeUgc, setActiveUgc] = useState<UgcCampaign | null>(null);
+  const { themeConfig, openInquiryModal, openRepresentationalModal } = useAgency();
+
+  const ugcSolutions = [
+    {
+      title: 'UGC Video Production',
+      desc: 'End-to-end production of engaging creator videos tailored for social platforms and organic virality.',
+      icon: Video,
+    },
+    {
+      title: 'Product Demonstration Videos',
+      desc: 'Clear, authentic walkthroughs highlighting product features, application, and real-life utility.',
+      icon: PlaySquare,
+    },
+    {
+      title: 'Lifestyle & Product Integration',
+      desc: 'Seamlessly weaving your products into creators’ daily routines, aesthetic feeds, and lifestyle contexts.',
+      icon: Sparkles,
+    },
+    {
+      title: 'Testimonial-Style Content',
+      desc: 'Genuine user feedback, personal stories, and honest creator perspectives that build instant trust.',
+      icon: MessageSquare,
+    },
+    {
+      title: 'Unboxing & First-Impression Videos',
+      desc: 'Capturing real excitement, premium packaging reveals, and authentic first reactions on camera.',
+      icon: Package,
+    },
+    {
+      title: 'Social Media Creatives',
+      desc: 'Native 9:16 and 4:5 assets optimized for Instagram Reels, YouTube Shorts, and brand feeds.',
+      icon: Layers,
+    },
+    {
+      title: 'Ad-Ready Creator Content',
+      desc: 'High-converting hooks and direct-response formats built specifically for paid Meta, Google & TikTok ads.',
+      icon: Film,
+    },
+    {
+      title: 'Content Usage Rights Coordination',
+      desc: 'Full commercial licensing and digital advertising usage rights negotiated and secured seamlessly.',
+      icon: ShieldCheck,
+    },
+  ];
 
   return (
     <section id="ugc" className="py-20 lg:py-28 bg-[#0c0d12] border-b border-white/10 relative">
@@ -19,198 +70,118 @@ export const UgcPortfolio: React.FC = () => {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-3xl mb-16 text-left"
         >
-          <div
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 border"
-            style={{
-              backgroundColor: themeConfig.accentBg,
-              borderColor: themeConfig.accentBorder,
-              color: themeConfig.accentText,
-            }}
-          >
-            100% WORKING UGC VIDEO CREATIVES
+          <div className="flex flex-wrap items-center gap-2.5 mb-4">
+            <div
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border"
+              style={{
+                backgroundColor: themeConfig.accentBg,
+                borderColor: themeConfig.accentBorder,
+                color: themeConfig.accentText,
+              }}
+            >
+              07 — UGC & CREATOR CONTENT
+            </div>
+
+            <button
+              onClick={openRepresentationalModal}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 hover:text-white text-[11px] font-mono transition-colors cursor-pointer"
+              title="View Representational Portfolio Notice"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+              <span>Representational Solutions</span>
+            </button>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-display font-bold text-white tracking-tight leading-tight">
-            CONTENT THAT <br />
+          <h2 className="text-3xl sm:text-5xl font-display font-black text-white tracking-tight leading-tight">
+            Authentic Content <br />
             <span className="font-serif italic font-normal text-white">
-              CONVERTS PAID ADS.
+              That Connects.
             </span>
           </h2>
 
-          <p className="mt-4 text-base sm:text-lg text-neutral-300 leading-relaxed">
-            As the best influencer marketing agency, CREATOR HAI produces high-retention UGC video ads engineered for Meta, YouTube Shorts, and TikTok. Get 100% working creative assets with full commercial ad usage rights that slash customer acquisition costs.
+          <p className="mt-4 text-base sm:text-lg text-neutral-300 leading-relaxed font-normal">
+            Today's audiences connect with content that feels relatable, genuine, and engaging. We help brands create creator-generated content that brings their products and stories to life through authentic experiences and creative storytelling.
+          </p>
+          <p className="mt-2 text-sm sm:text-base text-neutral-400 leading-relaxed font-normal">
+            From social media videos to advertising-ready content, we focus on creating content that feels natural while staying aligned with the brand's communication goals.
           </p>
         </motion.div>
 
-        {/* Selected UGC Campaigns Grid with On-Scroll Animations */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {ugcCampaigns.map((ugc, idx) => (
-            <motion.div
-              key={ugc.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.65, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -6, transition: { duration: 0.25 } }}
-              className={`rounded-3xl bg-[#13141b]/90 border border-white/10 overflow-hidden flex flex-col justify-between hover:border-white/30 transition-all shadow-xl group ${
-                idx % 2 === 0 ? 'ugc-parallax-odd' : 'ugc-parallax-even'
-              }`}
-            >
-              {/* Media Thumbnail Container */}
-              <div className="relative aspect-[4/5] bg-black overflow-hidden">
-                <img
-                  src={ugc.videoThumbnail}
-                  alt={`${ugc.brand} UGC Ad Creative - ${ugc.format}`}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-85"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#13141b] via-black/20 to-black/40" />
-
-                {/* Top Badges */}
-                <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-                  <span className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[11px] font-mono font-medium text-white uppercase">
-                    {ugc.category}
-                  </span>
-                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-semibold">
-                    <ShieldCheck className="w-3 h-3" />
-                    <span>Ad Rights</span>
-                  </div>
-                </div>
-
-                {/* Play Trigger */}
-                <button
-                  onClick={() => setActiveUgc(ugc)}
-                  aria-label={`Play UGC video ad preview for ${ugc.brand}`}
-                  className="absolute inset-0 flex items-center justify-center cursor-pointer group-hover:scale-110 transition-transform"
-                >
+        {/* 8 UGC Solutions Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14 text-left">
+          {ugcSolutions.map((sol, idx) => {
+            const Icon = sol.icon;
+            return (
+              <motion.div
+                key={sol.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-30px' }}
+                transition={{ duration: 0.55, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="p-6 rounded-3xl bg-[#13141c]/90 border border-white/10 hover:border-white/25 transition-all flex flex-col justify-between shadow-xl group relative overflow-hidden"
+              >
+                <div>
                   <div
-                    className="w-14 h-14 rounded-full flex items-center justify-center text-black shadow-2xl backdrop-blur-sm transition-transform duration-300 group-hover:shadow-[0_0_25px_rgba(255,255,255,0.3)]"
-                    style={{ backgroundColor: themeConfig.accent }}
+                    className="w-11 h-11 rounded-2xl flex items-center justify-center mb-5 shadow-md"
+                    style={{
+                      backgroundColor: themeConfig.accentBg,
+                      color: themeConfig.accent,
+                    }}
                   >
-                    <Play className="w-6 h-6 fill-current translate-x-0.5" />
-                  </div>
-                </button>
-
-                {/* Bottom Metric Chip */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs z-10">
-                  <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white font-mono text-[11px] font-medium border border-white/10">
-                    {ugc.creatorHandle}
-                  </span>
-                  <span
-                    className="font-mono text-xs font-bold px-2.5 py-1 rounded-full bg-black/80 border border-white/10"
-                    style={{ color: themeConfig.accent }}
-                  >
-                    {ugc.keyMetric}
-                  </span>
-                </div>
-              </div>
-
-              {/* UGC Campaign Details */}
-              <div className="p-6 text-left space-y-4 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <h3 className="text-xl font-display font-bold text-white tracking-tight">
-                      {ugc.brand}
-                    </h3>
-                    <span className="text-xs text-neutral-400 font-mono">
-                      {ugc.duration}
-                    </span>
+                    <Icon className="w-5 h-5" />
                   </div>
 
-                  <div className="text-xs font-semibold text-neutral-400 mb-3">
-                    {ugc.videoTitle}
-                  </div>
+                  <h3 className="text-base font-bold text-white mb-2 leading-snug">
+                    {sol.title}
+                  </h3>
 
-                  <p className="text-sm text-neutral-300 leading-relaxed">
-                    {ugc.description}
+                  <p className="text-xs text-neutral-300 leading-relaxed font-normal">
+                    {sol.desc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-white/10 space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-neutral-400">Usage Licensing:</span>
-                    <span className="font-semibold text-white">{ugc.adRights}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-neutral-400">Content Format:</span>
-                    <span className="font-semibold text-neutral-200">{ugc.format}</span>
-                  </div>
+                <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-neutral-400">
+                  <span>0{idx + 1}</span>
+                  <span className="text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                    Creator-Led <ArrowRight className="w-3 h-3" />
+                  </span>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
-      </div>
 
-      {/* UGC Video Lightbox */}
-      <AnimatePresence>
-        {activeUgc && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
-            onClick={() => setActiveUgc(null)}
+        {/* Philosophy Closing Callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-30px' }}
+          transition={{ duration: 0.6 }}
+          className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#171822] via-[#12131b] to-[#0c0d12] border border-white/15 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-2xl"
+        >
+          <div>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400 block mb-1">
+              Brand Humanization
+            </span>
+            <div className="text-lg sm:text-2xl font-display font-extrabold text-white tracking-tight">
+              Make Your Brand Feel More Human Through Creator-Led Content.
+            </div>
+          </div>
+
+          <button
+            onClick={() => openInquiryModal('brand')}
+            className="px-6 py-3 rounded-xl font-bold text-xs flex items-center gap-2 transition-all hover:scale-105 shadow-lg shrink-0"
+            style={{
+              backgroundColor: themeConfig.accent,
+              color: themeConfig.accentBtnText,
+            }}
           >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="relative max-w-md w-full rounded-3xl bg-[#161720] border border-white/20 p-6 overflow-hidden shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <span className="text-[10px] font-mono uppercase text-neutral-400 block">
-                    UGC Ad Video Asset
-                  </span>
-                  <div className="text-base font-bold text-white">{activeUgc.brand}</div>
-                </div>
-                <button
-                  onClick={() => setActiveUgc(null)}
-                  aria-label="Close UGC video preview"
-                  className="text-neutral-400 hover:text-white p-1 rounded-full transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="aspect-[9/16] max-h-[500px] mx-auto rounded-2xl overflow-hidden relative bg-black border border-white/10">
-                <img
-                  src={activeUgc.videoThumbnail}
-                  alt={activeUgc.brand}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
-                <div className="absolute bottom-4 left-4 right-4 text-left space-y-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-white/20 text-white">
-                    {activeUgc.category}
-                  </span>
-                  <p className="text-xs text-white leading-relaxed">
-                    {activeUgc.description}
-                  </p>
-                  <div className="text-xs font-mono font-semibold" style={{ color: themeConfig.accent }}>
-                    {activeUgc.adRights} • {activeUgc.keyMetric}
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4 flex items-center justify-between text-xs text-neutral-400">
-                <span>Ready for Meta / TikTok / YouTube</span>
-                <button
-                  onClick={() => setActiveUgc(null)}
-                  aria-label="Close preview modal"
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-black shadow-md"
-                  style={{ backgroundColor: themeConfig.accent }}
-                >
-                  Close Preview
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <span>Request UGC Content</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </motion.div>
+      </div>
     </section>
   );
 };

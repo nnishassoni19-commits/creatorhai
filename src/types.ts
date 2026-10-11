@@ -56,9 +56,13 @@ export interface LocalActivation {
 }
 
 export interface CategoryExperience {
+  number?: string;
   category: string;
+  headline?: string;
+  description?: string;
+  references?: string;
   iconName: string;
-  items: {
+  items?: {
     brand: string;
     details: string;
     tag: string;

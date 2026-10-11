@@ -1,0 +1,6 @@
+# Robots.txt for CREATOR HAI (https://creatorhai.com)
+User-agent: *
+Allow: /
+
+# Canonical Sitemap
+Sitemap: https://creatorhai.com/sitemap.xml

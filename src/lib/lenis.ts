@@ -12,12 +12,6 @@ export function initSmoothScroll(): Lenis | null {
     return null;
   }
 
-  // Mobile / touch devices do not need Lenis - native touch momentum is 0% CPU and optimal
-  const isTouchOrMobile = window.innerWidth < 1024 || window.matchMedia('(pointer: coarse)').matches;
-  if (isTouchOrMobile) {
-    return null;
-  }
-
   if (lenisInstance) {
     return lenisInstance;
   }

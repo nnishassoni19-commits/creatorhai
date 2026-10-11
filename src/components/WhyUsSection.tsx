@@ -62,23 +62,23 @@ export const WhyUsSection: React.FC = () => {
             }}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>THE BEST INFLUENCER MARKETING AGENCY PHILOSOPHY</span>
+            <span>OUR PHILOSOPHY</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-white tracking-tight leading-[1.08]">
-            WHY <span className="font-serif italic font-normal text-white">CREATOR HAI?</span>
+            WHY <span className="font-serif italic font-normal text-white">CREATORHAI?</span>
           </h2>
 
           <div className="mt-4 flex flex-wrap items-center gap-3 font-display font-bold text-xl sm:text-2xl tracking-tight text-white">
-            <span style={{ color: themeConfig.accent }}>RIGHT CREATOR.</span>
+            <span style={{ color: themeConfig.accent }}>RIGHT CREATORS.</span>
             <span className="text-neutral-500">•</span>
-            <span style={{ color: themeConfig.secondaryAccent }}>100% WORKING ROI.</span>
+            <span style={{ color: themeConfig.secondaryAccent }}>RELEVANT CONTENT.</span>
             <span className="text-neutral-500">•</span>
-            <span style={{ color: themeConfig.accent }}>RIGHT COLLABORATION.</span>
+            <span style={{ color: themeConfig.accent }}>MEANINGFUL CONNECTIONS.</span>
           </div>
 
           <p className="mt-6 text-base sm:text-lg text-neutral-200 leading-relaxed max-w-2xl font-normal">
-            As the best influencer agency, we combine deep creator research, campaign strategy, and precision calibration so every partnership is <strong className="text-white font-bold underline decoration-white/30">100% working</strong>. We know follower counts lie—our proprietary 5-variable match formula guarantees real sales, footfall, and engagement.
+            We believe successful collaborations go beyond follower counts. They are built on the right audience, creative alignment, genuine storytelling, and a clear understanding of brand objectives. From creator discovery to campaign execution, we bridge the gap between brands and creators to make collaborations seamless, strategic, and meaningful.
           </p>
         </motion.div>
 

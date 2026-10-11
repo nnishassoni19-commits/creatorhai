@@ -1,15 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useAgency } from '../context/AgencyContext';
-import { ArrowDown, Sparkles, Play, ShieldCheck, Video, Users, TrendingUp, Layers } from 'lucide-react';
+import { ArrowDown, Sparkles, Play, ShieldCheck, Video, Users, TrendingUp, Layers, MessageCircle, ArrowRight } from 'lucide-react';
+
+const heroCreators = [
+  {
+    name: 'Kavya Singhania',
+    handle: '@kavyasinghania.style',
+    category: 'Fashion & Style',
+    reach: '2.8M Reach',
+    image: '/src/assets/images/indian_creator_fashion_1791703826710.jpg',
+    tag: 'Libas Festive Collab',
+    quote: '"Styling contemporary ethnic Indo-western looks driving 14M impressions."'
+  },
+  {
+    name: 'Aarav Malhotra',
+    handle: '@aaravtechtalks',
+    category: 'Tech & Gadgets',
+    reach: '4.2M Reach',
+    image: '/src/assets/images/indian_creator_tech_1791703847629.jpg',
+    tag: 'Vivo Flagship Unbox',
+    quote: '"Real camera breakdown and benchmark reviews for flagship launch day."'
+  },
+  {
+    name: 'Pooja Vashisht',
+    handle: '@pooja.unfiltered',
+    category: 'Comedy & Pop Culture',
+    reach: '3.5M Reach',
+    image: '/src/assets/images/indian_creator_comedy_1791703885292.jpg',
+    tag: 'Swiggy Desi Moments',
+    quote: '"High-relatability comedic sketches generating 8.2M organic views."'
+  },
+  {
+    name: 'Vikram Joshi',
+    handle: '@vikram.finpulse',
+    category: 'Finance & Upskilling',
+    reach: '1.9M Reach',
+    image: '/src/assets/images/indian_creator_finance_1791703907870.jpg',
+    tag: 'The Sarkari Rise',
+    quote: '"Reaching high-intent career aspirants, driving 1M+ views in 14 days."'
+  }
+];
 
 export const Hero: React.FC = () => {
-  const { themeConfig } = useAgency();
+  const { themeConfig, contactInfo, openInquiryModal, openRepresentationalModal } = useAgency();
+  const [activeReelIdx, setActiveReelIdx] = useState(0);
+  const activeReel = heroCreators[activeReelIdx];
+
+  const directWhatsAppTap = () => {
+    const raw = contactInfo.phone ? contactInfo.phone.replace(/[^0-9]/g, '') : '919876543210';
+    const num = raw.length === 10 ? `91${raw}` : raw;
+    const text = encodeURIComponent(
+      `Hi CreatorHai Team! We want to connect regarding brand collaboration & creator marketing.`
+    );
+    window.open(`https://wa.me/${num}?text=${text}`, '_blank');
+  };
 
   const services = [
     'Influencer Marketing',
-    'UGC Campaigns',
-    'Creator Partnerships',
+    'UGC',
+    'Creator Discovery',
+    'D2C Marketing',
     'Campaign Management',
   ];
 
@@ -35,36 +86,48 @@ export const Hero: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Peaceful Typography & Intent */}
-          <div className="lg:col-span-7 text-left space-y-6">
-            {/* Tagline Badge */}
-            <div
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-xs font-semibold tracking-wide uppercase transition-colors"
-              style={{
-                backgroundColor: themeConfig.accentBg,
-                borderColor: themeConfig.accentBorder,
-                color: themeConfig.accentText,
-              }}
-            >
-              <Sparkles className="w-3.5 h-3.5 opacity-80" />
-              <span>Ranked #1 Best Influencer Marketing Agency • 100% Working Strategy</span>
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: themeConfig.secondaryAccent }} />
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 text-left space-y-6"
+          >
+            {/* Tagline Badges */}
+            <div className="flex flex-wrap items-center gap-2.5">
+              <div
+                className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-xs font-semibold tracking-wide uppercase transition-colors"
+                style={{
+                  backgroundColor: themeConfig.accentBg,
+                  borderColor: themeConfig.accentBorder,
+                  color: themeConfig.accentText,
+                }}
+              >
+                <Sparkles className="w-3.5 h-3.5 opacity-80" />
+                <span>01 — COVER • Creator Marketing Agency</span>
+                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: themeConfig.secondaryAccent }} />
+              </div>
+
+              <button
+                onClick={openRepresentationalModal}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                title="View Representational Portfolio Notice"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                <span>Representational Portfolio</span>
+              </button>
             </div>
 
-            {/* Main Headline with High SEO & Catchy Design */}
-            <h1 id="hero-headline" className="text-4xl sm:text-6xl xl:text-7xl font-display font-extrabold tracking-tight text-white leading-[1.06]">
-              CREATOR HAI <br />
-              <span className="font-serif italic font-normal tracking-tight text-white">
-                Best Influencer Agency
+            {/* Main Headline */}
+            <h1 id="hero-headline" className="text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-display font-black tracking-tight text-white leading-[1.08] sm:leading-[1.06]">
+              CREATOR<span className="transition-all duration-300" style={{ color: themeConfig.accent, textShadow: `0 0 35px ${themeConfig.accent}50` }}>HAI</span> <br />
+              <span className="font-serif italic font-normal tracking-tight text-white block mt-1">
+                Connecting Brands with the Right Creators.
               </span>
             </h1>
 
-            {/* Sub-headline */}
-            <p className="text-xl sm:text-2xl font-medium text-neutral-200 tracking-tight max-w-2xl font-display">
-              Connecting Brands with the Right Creators — 100% Working Campaigns.
-            </p>
-
-            <p className="text-base sm:text-lg text-neutral-300 max-w-xl leading-relaxed">
-              CREATOR HAI is recognized as India's best influencer marketing agency and best influencer agency for high-growth brands. We engineer 100% working creator collaborations, viral UGC video ads, and retail footfall activations that translate social attention into verified customer revenue.
+            {/* Sub-headline / Description */}
+            <p className="text-lg sm:text-xl text-neutral-300 max-w-xl leading-relaxed">
+              We bring brands and creators together to build meaningful collaborations, authentic content, and impactful digital experiences.
             </p>
 
             {/* Service Pills */}
@@ -79,49 +142,179 @@ export const Hero: React.FC = () => {
               ))}
             </div>
 
-            {/* Primary Action Buttons */}
-            <div className="pt-4 flex flex-wrap items-center gap-4">
-              <a
-                href="#case-studies"
-                className="px-6 py-3.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-xl transition-all duration-300 hover:shadow-2xl hover:translate-y-[-2px]"
-                style={{
-                  backgroundColor: themeConfig.accent,
-                  color: themeConfig.accentBtnText,
-                }}
-              >
-                <span>Explore Case Studies</span>
-                <ArrowDown className="w-4 h-4" />
-              </a>
+            {/* User-Friendly Dual-Track Action Suite: Crystal-Clear Purpose & High-Contrast Belongings */}
+            <div className="pt-2 space-y-3">
+              <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: themeConfig.accent }} />
+                <span>SELECT YOUR GOAL • CLEAR PURPOSE ACTIONS</span>
+              </div>
 
-              <a
-                href="#approach"
-                className="px-6 py-3.5 rounded-xl font-semibold text-sm bg-neutral-900/90 border border-neutral-700/80 text-neutral-200 hover:bg-neutral-800 hover:text-white transition-all"
-              >
-                Our 9-Step Approach
-              </a>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
+                {/* BUTTON 1: HIGHLIGHTED FOR BRANDS (Primary Most-Needed CTA) */}
+                <button
+                  type="button"
+                  onClick={() => openInquiryModal('brand')}
+                  className="p-4 rounded-2xl text-left transition-all duration-200 border relative overflow-hidden group shadow-xl hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-emerald-500/20 via-[#141d1a] to-[#0d1210] border-emerald-400/50 hover:border-emerald-400"
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      FOR BRANDS & BUSINESSES
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-emerald-400 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                  <div className="font-display font-extrabold text-base text-white group-hover:text-emerald-200 transition-colors">
+                    Let's Connect — Launch Campaign
+                  </div>
+                  <p className="text-xs text-neutral-300 mt-1 leading-snug">
+                    Submit brand campaign brief → Get curated creator roster & pricing shortlist in 24 hrs
+                  </p>
+                </button>
+
+                {/* BUTTON 2: FOR CREATORS & TALENT */}
+                <button
+                  type="button"
+                  onClick={() => openInquiryModal('creator')}
+                  className="p-4 rounded-2xl text-left transition-all duration-200 border relative overflow-hidden group shadow-xl hover:scale-[1.02] active:scale-[0.98] bg-[#141520]/90 border-white/15 hover:border-white/30"
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider"
+                      style={{
+                        backgroundColor: themeConfig.accentBg,
+                        color: themeConfig.accentText,
+                        borderColor: themeConfig.accentBorder,
+                      }}
+                    >
+                      FOR CREATORS & TALENT
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                  <div className="font-display font-extrabold text-base text-white transition-colors">
+                    Join Creator Roster
+                  </div>
+                  <p className="text-xs text-neutral-300 mt-1 leading-snug">
+                    Apply to collaborate on paid brand campaigns, gifting & sponsored video deals
+                  </p>
+                </button>
+              </div>
+
+              {/* Secondary Utility Actions: 1-Tap WhatsApp & Case Studies */}
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={directWhatsAppTap}
+                  className="px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 border border-[#25D366]/40 bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#25D366] transition-all shadow-sm"
+                  title="Direct 1-tap WhatsApp chat with agency director"
+                >
+                  <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+                  <span className="font-mono uppercase text-[10px] text-emerald-300 font-bold">1-TAP CHAT:</span>
+                  <span className="text-white font-semibold">WhatsApp Us Directly</span>
+                </button>
+
+                <a
+                  href="#case-studies"
+                  className="px-4 py-2.5 rounded-xl font-semibold text-xs flex items-center gap-2 bg-neutral-900 border border-neutral-700/80 text-neutral-200 hover:bg-neutral-800 hover:text-white transition-all"
+                >
+                  <span className="font-mono text-[10px] text-neutral-400 uppercase">PROOF:</span>
+                  <span>Featured Case Studies (TSR 14-Day)</span>
+                  <ArrowDown className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              {/* Mini Moving Ticker / Trust Strip for Indian Creators */}
+              <div className="pt-3 border-t border-white/10">
+                <a
+                  href="#creators-roster"
+                  className="group flex flex-wrap items-center gap-3 p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-white/20 transition-all text-left"
+                >
+                  {/* Overlapping Indian creator avatars */}
+                  <div className="flex -space-x-2.5 overflow-hidden">
+                    <img
+                      className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
+                      src="/src/assets/images/indian_creator_fashion_1791703826710.jpg"
+                      alt="Indian Creator Kavya"
+                    />
+                    <img
+                      className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
+                      src="/src/assets/images/indian_creator_tech_1791703847629.jpg"
+                      alt="Indian Creator Aarav"
+                    />
+                    <img
+                      className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
+                      src="/src/assets/images/indian_creator_comedy_1791703885292.jpg"
+                      alt="Indian Creator Pooja"
+                    />
+                    <img
+                      className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
+                      src="/src/assets/images/indian_creator_finance_1791703907870.jpg"
+                      alt="Indian Creator Vikram"
+                    />
+                    <img
+                      className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
+                      src="/src/assets/images/indian_creator_beauty_1791703936633.jpg"
+                      alt="Indian Creator Rhea"
+                    />
+                  </div>
+
+                  <div className="flex-1 min-w-[200px]">
+                    <div className="text-[11px] font-bold text-white flex items-center gap-1.5">
+                      <span>1,200+ Verified Indian Creators Roster</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    </div>
+                    <div className="text-[10px] text-neutral-400">
+                      Celebrity, Tech, Fashion, Comedy & EdTech • Tap to explore moving cards roster
+                    </div>
+                  </div>
+
+                  <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-white group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column: Visual Reel / Proof Mockup Stack */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 relative"
             style={{ perspective: 1000 }}
           >
+            {/* Interactive Creator Reel Selector */}
+            <div className="flex items-center justify-center gap-1.5 mb-3">
+              {heroCreators.map((c, i) => (
+                <button
+                  key={c.name}
+                  type="button"
+                  onClick={() => setActiveReelIdx(i)}
+                  className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                    activeReelIdx === i
+                      ? 'bg-white text-neutral-900 shadow-md scale-105'
+                      : 'bg-white/5 text-neutral-400 hover:text-white border border-white/10'
+                  }`}
+                >
+                  {c.category.split(' ')[0]}
+                </button>
+              ))}
+            </div>
+
             <div id="hero-phone-mockup" className="relative mx-auto max-w-[330px] sm:max-w-[360px] animate-peaceful-float transform-gpu">
               {/* Phone Frame Simulator */}
               <div className="rounded-[40px] p-3 bg-gradient-to-b from-neutral-700/80 to-neutral-900 border-2 border-neutral-600/70 shadow-2xl relative overflow-hidden">
                 {/* Screen glass */}
                 <div className="relative rounded-[30px] overflow-hidden bg-black aspect-[9/16] border border-white/10">
-                  {/* Creator Video Still */}
+                  {/* Indian Creator Video Still */}
                   <img
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=500&auto=format&fit=crop"
-                    alt="CREATOR HAI Creator Reel Preview - Best Influencer Marketing Agency Showcase"
+                    key={activeReel.name}
+                    src={activeReel.image}
+                    alt={`${activeReel.name} - Top Indian Creator Reel Showcase`}
                     width="360"
                     height="640"
                     loading="eager"
                     fetchPriority="high"
                     decoding="async"
-                    className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover object-top opacity-95 transition-all duration-500 scale-100 hover:scale-105"
                   />
 
                   {/* Gradient overlays */}
@@ -129,16 +322,18 @@ export const Hero: React.FC = () => {
 
                   {/* Top Bar inside reel */}
                   <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-xs text-white z-10">
-                    <span className="px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 font-bold text-[10px] tracking-wider uppercase">
-                      Live Campaign
+                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/80 backdrop-blur-md border border-emerald-400/30 font-bold text-[10px] tracking-wider uppercase text-white shadow">
+                      {activeReel.tag}
                     </span>
-                    <span className="text-[11px] font-mono text-neutral-300">1M+ Views</span>
+                    <span className="text-[11px] font-mono text-white font-bold bg-black/60 px-2 py-0.5 rounded-full border border-white/20">
+                      {activeReel.reach}
+                    </span>
                   </div>
 
                   {/* Floating Middle Play Indicator */}
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <div
-                      className="w-14 h-14 rounded-full flex items-center justify-center shadow-2xl backdrop-blur-sm transition-transform"
+                      className="w-14 h-14 rounded-full flex items-center justify-center shadow-2xl backdrop-blur-sm transition-transform animate-pulse"
                       style={{
                         backgroundColor: themeConfig.accent,
                         color: themeConfig.accentBtnText,
@@ -151,30 +346,30 @@ export const Hero: React.FC = () => {
                   {/* Bottom Creator Card inside reel */}
                   <div className="absolute bottom-4 left-4 right-4 text-left z-10 space-y-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full border border-white/40 overflow-hidden">
+                      <div className="w-9 h-9 rounded-full border-2 border-white/60 overflow-hidden shadow-md">
                         <img
-                          src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"
-                          alt="Creator avatar"
-                          className="w-full h-full object-cover"
+                          src={activeReel.image}
+                          alt={activeReel.name}
+                          className="w-full h-full object-cover object-top"
                         />
                       </div>
                       <div>
                         <div className="text-xs font-bold text-white flex items-center gap-1">
-                          <span>@creator.spotlight</span>
+                          <span>{activeReel.name}</span>
                           <ShieldCheck className="w-3.5 h-3.5 text-sky-400 fill-sky-400/20" />
                         </div>
-                        <div className="text-[10px] text-neutral-400 font-medium">
-                          The Sarkari Rise • Paid Partnership
+                        <div className="text-[10px] text-neutral-300 font-mono">
+                          {activeReel.handle} • {activeReel.category}
                         </div>
                       </div>
                     </div>
 
                     <p className="text-xs text-neutral-200 line-clamp-2 leading-snug">
-                      "Finding creators who naturally converse with education aspirants, driving 1M+ views in just 14 days."
+                      {activeReel.quote}
                     </p>
 
-                    <div className="flex items-center justify-between pt-1 text-[11px] text-neutral-300 border-t border-white/10">
-                      <span>12 Creators Activated</span>
+                    <div className="flex items-center justify-between pt-1 text-[11px] text-neutral-300 border-t border-white/15">
+                      <span className="text-emerald-300 font-medium">92% Indian Audience</span>
                       <span className="font-bold text-white">Instagram + YouTube</span>
                     </div>
                   </div>
@@ -194,12 +389,12 @@ export const Hero: React.FC = () => {
 
               {/* Floating Highlight Card 2 - Carefully bounded positioning */}
               <div id="hero-float-card-right" className="absolute -top-3 -right-3 sm:-right-6 bg-[#17181f]/95 border border-white/15 p-3 rounded-2xl shadow-2xl backdrop-blur-xl max-w-[180px] hidden sm:block z-20">
-                <div className="text-[10px] font-mono text-neutral-400 uppercase">Scale Record</div>
-                <div className="text-sm font-extrabold text-white mt-0.5">100+ Creators</div>
-                <div className="text-[11px] text-neutral-400">Single campaign cycle</div>
+                <div className="text-[10px] font-mono text-neutral-400 uppercase">Indian Roster</div>
+                <div className="text-sm font-extrabold text-white mt-0.5">1,200+ Creators</div>
+                <div className="text-[11px] text-neutral-400">All major Indian cities</div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Quick Numbers Bar with on-scroll reveals */}
@@ -242,6 +437,8 @@ export const Hero: React.FC = () => {
           })}
         </div>
       </div>
+
+
     </section>
   );
 };

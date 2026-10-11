@@ -112,18 +112,18 @@ export const ApproachPipeline: React.FC = () => {
               color: themeConfig.accentText,
             }}
           >
-            100% WORKING 9-STEP FRAMEWORK
+            END-TO-END EXECUTION • 9-STEP FRAMEWORK
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-display font-bold text-white tracking-tight leading-tight">
-            How the Best Influencer Marketing Agency <br />
+            From Discovery to Live Execution: <br />
             <span className="font-serif italic font-normal text-white">
-              Guarantees Flawless Execution.
+              Making Collaborations Seamless & Strategic.
             </span>
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-neutral-300 leading-relaxed">
-            CREATOR HAI operates with zero guesswork. Our battle-tested 9-step pipeline is why brands trust us as the best influencer agency for 100% working campaigns—eliminating creator drop-offs, locking commercial rates, and delivering verified ROI.
+            We bridge the gap between brands and creators with an end-to-end management pipeline that covers campaign planning, creator outreach, creative direction, draft approvals, and performance tracking.
           </p>
         </motion.div>
 

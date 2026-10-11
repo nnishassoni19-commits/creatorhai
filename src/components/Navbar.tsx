@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
 import { useAgency } from '../context/AgencyContext';
-import { Sparkles, Presentation, Edit3, Palette, Check, ArrowUpRight, Menu, X } from 'lucide-react';
+import { Sparkles, Presentation, Palette, Check, ArrowUpRight, Menu, X, MessageCircle } from 'lucide-react';
 import { ColorTheme } from '../types';
+import { BrandLogo } from './BrandLogo';
 
 export const Navbar: React.FC = () => {
-  const { colorTheme, setColorTheme, isEditMode, setIsEditMode, isDeckMode, setIsDeckMode, themeConfig } = useAgency();
+  const {
+    colorTheme,
+    setColorTheme,
+    isDeckMode,
+    setIsDeckMode,
+    themeConfig,
+    contactInfo,
+    openInquiryModal,
+    openRepresentationalModal,
+  } = useAgency();
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const directWhatsAppTap = () => {
+    const raw = contactInfo.phone ? contactInfo.phone.replace(/[^0-9]/g, '') : '919876543210';
+    const num = raw.length === 10 ? `91${raw}` : raw;
+    const text = encodeURIComponent(
+      `Hi CreatorHai Team! We are looking to collaborate with creators / launch an influencer campaign for our brand.`
+    );
+    window.open(`https://wa.me/${num}?text=${text}`, '_blank');
+  };
 
   const themes: {
     id: ColorTheme;
@@ -79,90 +98,86 @@ export const Navbar: React.FC = () => {
   ];
 
   const navLinks = [
+    { name: 'Creators', href: '#creators-roster' },
     { name: 'About', href: '#about' },
     { name: 'Approach', href: '#approach' },
-    { name: 'Experience', href: '#experience' },
     { name: 'Case Studies', href: '#case-studies' },
     { name: 'UGC', href: '#ugc' },
-    { name: 'Local Activations', href: '#local' },
     { name: 'Why Us', href: '#why-us' },
     { name: 'Contact', href: '#contact' },
   ];
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-md bg-[#0c0d10]/90 border-b border-white/10 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group" aria-label="CREATOR HAI - Best Influencer Marketing Agency Homepage">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center font-black tracking-tighter text-black transition-transform group-hover:scale-105 shadow-lg"
-              style={{ backgroundColor: themeConfig.accent }}
-            >
-              CH
-            </div>
-            <div>
-              <span className="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-white block">
-                CREATOR HAI
-              </span>
-              <span className="text-[10px] tracking-wider uppercase text-neutral-300 font-medium block">
-                Best Influencer Marketing Agency • 100% Working ROI
-              </span>
-            </div>
+    <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-[#0c0d10]/95 border-b border-white/10 transition-colors">
+      {/* Top Representational Showcase Notice Bar */}
+      <div className="w-full bg-[#08090e] border-b border-white/10 px-3 sm:px-4 py-1.5 text-center text-[11px] sm:text-xs text-neutral-300 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 font-mono font-bold text-[10px] uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+          Representational Showcase
+        </span>
+        <span className="text-neutral-300">
+          This website and its campaign references are for representational & portfolio demonstration purposes.
+        </span>
+        <button
+          onClick={openRepresentationalModal}
+          className="text-amber-300 hover:text-white underline font-semibold transition-colors cursor-pointer ml-1 inline-flex items-center gap-0.5"
+        >
+          <span>Notice Details</span>
+          <ArrowUpRight className="w-3 h-3" />
+        </button>
+      </div>
+
+      <div className="w-full max-w-[1536px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
+          {/* Brand Name (Logo icon removed, placed at generous distance on big screens) */}
+          <a
+            href="#"
+            className="flex items-center group focus:outline-none focus:ring-2 focus:ring-white/20 rounded-xl shrink-0"
+            aria-label="CREATORHAI - Connecting Brands with the Right Creators"
+          >
+            <BrandLogo variant="navbar" size="md" />
           </a>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden xl:flex items-center gap-6" aria-label="Main Navigation">
+          <nav className="hidden xl:flex items-center gap-3.5 2xl:gap-6 shrink-0" aria-label="Main Navigation">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-neutral-300 hover:text-white transition-colors"
+                className="text-xs 2xl:text-sm font-semibold text-neutral-300 hover:text-white transition-colors whitespace-nowrap px-1 py-1"
               >
                 {link.name}
               </a>
             ))}
           </nav>
 
-          {/* Action Toolbar */}
-          <div className="hidden md:flex items-center gap-3">
-            {/* Canva Pitch Deck Mode Toggle */}
+          {/* Action Toolbar with Crystal-Clear Button Purpose Badges */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-2.5 xl:gap-3 shrink-0">
+            {/* Pitch Deck View Button */}
             <button
               onClick={() => setIsDeckMode(true)}
-              aria-label="Open full-screen pitch deck view"
-              className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg bg-neutral-900 border border-neutral-700/80 text-white hover:border-neutral-500 hover:bg-neutral-800 transition-all shadow-sm"
+              aria-label="Open 2-Page Pitch Deck View"
+              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-xl bg-neutral-900 border border-neutral-700/90 text-white hover:border-neutral-400 hover:bg-neutral-800 transition-all shadow-sm shrink-0 group"
               title="Open full-screen 2-page spread pitch deck view"
             >
-              <Presentation className="w-4 h-4" style={{ color: themeConfig.accent }} />
-              <span>Pitch Deck View</span>
+              <Presentation className="w-3.5 h-3.5 shrink-0" style={{ color: themeConfig.accent }} />
+              <div className="text-left leading-tight hidden lg:block">
+                <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-neutral-400">PITCH DECK</div>
+                <div className="text-xs font-semibold text-white whitespace-nowrap">2-Page View</div>
+              </div>
             </button>
 
-            {/* Live Edit Mode Toggle */}
-            <button
-              onClick={() => setIsEditMode(!isEditMode)}
-              aria-label={isEditMode ? 'Exit inline editing mode' : 'Enter inline editing mode'}
-              className={`flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg transition-all border ${
-                isEditMode
-                  ? 'bg-white text-black border-white shadow-lg'
-                  : 'bg-neutral-900 border-neutral-700/80 text-neutral-300 hover:text-white hover:bg-neutral-800'
-              }`}
-              title="Toggle inline editing for texts, stats, and links"
-            >
-              <Edit3 className="w-3.5 h-3.5" />
-              <span>{isEditMode ? 'Editing Active' : 'Edit Mode'}</span>
-            </button>
-
-            {/* Theme Selector Dropdown */}
-            <div className="relative">
+            {/* High-Contrast Palette Selector Dropdown */}
+            <div className="relative shrink-0">
               <button
                 onClick={() => setShowThemeMenu(!showThemeMenu)}
                 aria-label="Change color theme palette"
                 aria-expanded={showThemeMenu}
-                className="flex items-center gap-2 px-2.5 py-2 rounded-lg bg-neutral-900 border border-neutral-700/80 text-neutral-200 hover:text-white hover:border-neutral-500 transition-all shadow-sm"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-neutral-900 border border-neutral-700/80 text-neutral-200 hover:text-white hover:border-neutral-500 transition-all shadow-sm shrink-0"
                 title="Change high-contrast color palette"
               >
-                <Palette className="w-3.5 h-3.5 text-neutral-400" />
-                <div className="flex -space-x-1 items-center">
+                <Palette className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                <div className="flex -space-x-1 items-center shrink-0">
                   <span
                     className="w-3.5 h-3.5 rounded-full border border-black/60 shadow-sm z-10"
                     style={{ backgroundColor: themeConfig.accent }}
@@ -172,9 +187,6 @@ export const Navbar: React.FC = () => {
                     style={{ backgroundColor: themeConfig.secondaryAccent }}
                   />
                 </div>
-                <span className="hidden xl:inline text-xs font-mono font-medium text-neutral-300">
-                  {themeConfig.name.split('&')[0].trim()}
-                </span>
               </button>
 
               {showThemeMenu && (
@@ -234,22 +246,66 @@ export const Navbar: React.FC = () => {
               )}
             </div>
 
-            {/* Collaborate CTA */}
+            {/* HIGHLIGHTED: Direct Connect / Inquiry Form Button for Brands */}
+            <button
+              onClick={() => openInquiryModal('brand')}
+              aria-label="For Brands: Open Quick Campaign Connect Form"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/15 hover:from-emerald-500/30 hover:to-teal-500/25 border border-emerald-400/50 text-emerald-200 hover:text-white transition-all shadow-md group shrink-0"
+              title="For Brands: Open Direct Inquiry Form"
+            >
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <div className="text-left leading-tight">
+                <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-emerald-400">FOR BRANDS</div>
+                <div className="text-xs font-bold text-white flex items-center gap-1 whitespace-nowrap">
+                  <span>Let's Connect</span>
+                  <MessageCircle className="w-3 h-3 text-emerald-400" />
+                </div>
+              </div>
+            </button>
+
+            {/* Direct 1-Tap WhatsApp Button */}
+            <button
+              onClick={directWhatsAppTap}
+              aria-label="Direct WhatsApp Chat with Agency"
+              className="hidden xl:flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/40 text-emerald-300 transition-all shrink-0"
+              title="1-Tap direct WhatsApp chat with campaign lead"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#25D366] animate-ping shrink-0" />
+              <div className="text-left leading-tight">
+                <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#25D366]">1-TAP CHAT</div>
+                <div className="text-xs font-bold text-white whitespace-nowrap">WhatsApp</div>
+              </div>
+            </button>
+
+            {/* Launch Campaign CTA */}
             <a
               href="#contact"
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg font-bold text-xs transition-all duration-200 hover:opacity-95 shadow-md active:scale-95"
+              className="flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl font-bold text-xs transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg shrink-0 whitespace-nowrap"
               style={{
                 backgroundColor: themeConfig.accent,
                 color: themeConfig.accentBtnText,
               }}
             >
-              <span>Let's Collaborate</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <div className="text-left leading-tight">
+                <div className="text-[9px] font-mono uppercase tracking-wider opacity-85 font-black">LAUNCH BRIEF</div>
+                <div className="text-xs font-black flex items-center gap-1 whitespace-nowrap">
+                  <span>Get Creators</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </div>
+              </div>
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button & Quick WhatsApp Button */}
           <div className="flex items-center gap-2 md:hidden">
+            <button
+              onClick={() => openInquiryModal('brand')}
+              aria-label="Open Quick WhatsApp Inquiry"
+              className="p-2 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300"
+              title="Connect Form"
+            >
+              <MessageCircle className="w-4 h-4 fill-current" />
+            </button>
             <button
               onClick={() => setIsDeckMode(true)}
               aria-label="Open presentation pitch deck view"
@@ -267,6 +323,8 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
+
+
 
       {/* Mobile Dropdown */}
       {mobileMenuOpen && (
@@ -317,15 +375,28 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => {
-                setIsEditMode(!isEditMode);
                 setMobileMenuOpen(false);
+                openInquiryModal('brand');
               }}
-              aria-label={isEditMode ? 'Exit inline editing mode' : 'Enter inline editing mode'}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold bg-neutral-800 text-white border border-neutral-700"
+              aria-label="Open Inquiry Form in mobile menu"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
             >
-              <Edit3 className="w-4 h-4" />
-              <span>{isEditMode ? 'Exit Edit Mode' : 'Enter Edit Mode'}</span>
+              <MessageCircle className="w-4 h-4 fill-current" />
+              <span>Direct WhatsApp Inquiry Form</span>
             </button>
+
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                directWhatsAppTap();
+              }}
+              aria-label="Direct 1-tap WhatsApp chat"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold bg-[#25D366] text-black"
+            >
+              <MessageCircle className="w-4 h-4 fill-current" />
+              <span>Tap to Chat on WhatsApp ({contactInfo.phone})</span>
+            </button>
+
 
             <a
               href="#contact"

@@ -5,17 +5,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 export function initScrollAnimations(): () => void {
-  if (typeof window === 'undefined' || window.innerWidth < 1024) {
+  if (typeof window === 'undefined') {
     return () => {};
   }
 
   let ctx: ReturnType<typeof gsap.context> | null = null;
-  let idleId: number | null = null;
   let timerId: ReturnType<typeof setTimeout> | null = null;
 
   const setupAnimations = () => {
-    if (typeof window === 'undefined' || window.innerWidth < 1024) return;
-    const isMobile = false;
+    if (typeof window === 'undefined') return;
+    const isMobile = window.innerWidth < 768;
 
     ctx = gsap.context(() => {
       // ========================================================
@@ -34,7 +33,7 @@ export function initScrollAnimations(): () => void {
             trigger: heroSection,
             start: 'top top',
             end: 'bottom top',
-            scrub: 1.2,
+            scrub: isMobile ? 0.8 : 1.2,
           },
         });
 
@@ -42,7 +41,7 @@ export function initScrollAnimations(): () => void {
           heroTl.to(
             heroTitle,
             {
-              y: -60,
+              y: isMobile ? -30 : -60,
               opacity: 0.35,
               scale: 0.94,
               ease: 'none',
@@ -51,65 +50,65 @@ export function initScrollAnimations(): () => void {
           );
         }
 
-          if (heroPhoneMockup && !isMobile) {
-            heroTl.to(
-              heroPhoneMockup,
-              {
-                y: 110,
-                rotateY: -14,
-                rotateX: 10,
-                scale: 0.92,
-                filter: 'blur(1px)',
-                ease: 'none',
-              },
-              0
-            );
-          }
-
-          if (heroCardLeft && !isMobile) {
-            heroTl.to(
-              heroCardLeft,
-              {
-                x: -70,
-                y: 40,
-                rotateZ: -8,
-                opacity: 0.2,
-                ease: 'none',
-              },
-              0
-            );
-          }
-
-          if (heroCardRight && !isMobile) {
-            heroTl.to(
-              heroCardRight,
-              {
-                x: 70,
-                y: -30,
-                rotateZ: 8,
-                opacity: 0.2,
-                ease: 'none',
-              },
-              0
-            );
-          }
-
-          if (heroStats.length > 0 && !isMobile) {
-            heroTl.to(
-              heroStats,
-              {
-                y: -25,
-                stagger: 0.05,
-                ease: 'none',
-              },
-              0
-            );
-          }
+        if (heroPhoneMockup) {
+          heroTl.to(
+            heroPhoneMockup,
+            {
+              y: isMobile ? 50 : 110,
+              rotateY: isMobile ? -6 : -14,
+              rotateX: isMobile ? 5 : 10,
+              scale: 0.92,
+              filter: 'blur(1px)',
+              ease: 'none',
+            },
+            0
+          );
         }
 
-        // ========================================================
-        // 2. ABOUT SECTION 3D FAN-OUT
-        // ========================================================
+        if (heroCardLeft) {
+          heroTl.to(
+            heroCardLeft,
+            {
+              x: isMobile ? -30 : -70,
+              y: 40,
+              rotateZ: -8,
+              opacity: 0.2,
+              ease: 'none',
+            },
+            0
+          );
+        }
+
+        if (heroCardRight) {
+          heroTl.to(
+            heroCardRight,
+            {
+              x: isMobile ? 30 : 70,
+              y: -30,
+              rotateZ: 8,
+              opacity: 0.2,
+              ease: 'none',
+            },
+            0
+          );
+        }
+
+        if (heroStats.length > 0) {
+          heroTl.to(
+            heroStats,
+            {
+              y: -25,
+              stagger: 0.05,
+              ease: 'none',
+            },
+            0
+          );
+        }
+      }
+
+      // ========================================================
+      // 2. ABOUT SECTION 3D FAN-OUT
+      // ========================================================
         const aboutCards = document.querySelectorAll('.about-capability-card');
         if (aboutCards.length > 0) {
           gsap.fromTo(
@@ -395,30 +394,19 @@ export function initScrollAnimations(): () => void {
       });
     };
 
-    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      idleId = (window as unknown as { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(
-        () => {
-          setupAnimations();
-        },
-        { timeout: 1500 }
-      );
-    } else {
-      timerId = setTimeout(() => {
-        setupAnimations();
-      }, 500);
-    }
+    timerId = setTimeout(() => {
+      setupAnimations();
+      ScrollTrigger.refresh();
+    }, 100);
 
-  return () => {
-    if (idleId !== null && 'cancelIdleCallback' in window) {
-      (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
-    }
-    if (timerId !== null) {
-      clearTimeout(timerId);
-    }
-    if (ctx) {
-      ctx.revert();
-    }
-  };
+    return () => {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+      }
+      if (ctx) {
+        ctx.revert();
+      }
+    };
 }
 
 export function useScrollAnimations() {

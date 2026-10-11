@@ -279,31 +279,11 @@ export const ThreeCanvasBackground: React.FC = () => {
       };
     };
 
-    // Use requestIdleCallback or setTimeout to yield main thread during initial paint
-    let idleId: number | null = null;
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
-
-    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      idleId = (window as unknown as { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(
-        () => {
-          initThree();
-        },
-        { timeout: 1200 }
-      );
-    } else {
-      timeoutId = setTimeout(() => {
-        initThree();
-      }, 500);
-    }
+    // Initialize Three.js WebGL canvas immediately
+    initThree();
 
     return () => {
       isDisposed = true;
-      if (idleId !== null && 'cancelIdleCallback' in window) {
-        (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
-      }
-      if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-      }
       if (cleanupFn) {
         cleanupFn();
       }

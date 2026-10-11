@@ -3,81 +3,57 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState, Suspense, lazy } from 'react';
+import React, { useEffect } from 'react';
 import { AgencyProvider, useAgency } from './context/AgencyContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { IndianCreatorsShowcase } from './components/IndianCreatorsShowcase';
 import { AboutSection } from './components/AboutSection';
 import { ApproachPipeline } from './components/ApproachPipeline';
-import { ExperienceStats } from './components/ExperienceStats';
 import { CaseStudiesSection } from './components/CaseStudiesSection';
 import { UgcPortfolio } from './components/UgcPortfolio';
-import { LocalActivations } from './components/LocalActivations';
-import { MoreExperienceGrid } from './components/MoreExperienceGrid';
 import { WhyUsSection } from './components/WhyUsSection';
 import { ContactSection } from './components/ContactSection';
-
-// Lazy-load non-critical desktop and interactive overlay components
-const ThreeCanvasBackground = lazy(() =>
-  import('./components/ThreeCanvasBackground').then((m) => ({ default: m.ThreeCanvasBackground }))
-);
-const ScrollBridgeHUD = lazy(() =>
-  import('./components/ScrollBridgeHUD').then((m) => ({ default: m.ScrollBridgeHUD }))
-);
-const PitchDeckModal = lazy(() =>
-  import('./components/PitchDeckModal').then((m) => ({ default: m.PitchDeckModal }))
-);
-const EditBar = lazy(() =>
-  import('./components/EditBar').then((m) => ({ default: m.EditBar }))
-);
+import { ThreeCanvasBackground } from './components/ThreeCanvasBackground';
+import { ScrollBridgeHUD } from './components/ScrollBridgeHUD';
+import { PitchDeckModal } from './components/PitchDeckModal';
+import { TopInquiryModal } from './components/TopInquiryModal';
+import { RepresentationalModal } from './components/RepresentationalModal';
+import { initSmoothScroll, stopLenis, startLenis } from './lib/lenis';
+import { useScrollAnimations } from './hooks/useScrollAnimations';
 
 const AppContent: React.FC = () => {
-  const { themeConfig, isDeckMode, isEditMode } = useAgency();
-  const [isDesktop, setIsDesktop] = useState(false);
+  const {
+    themeConfig,
+    isDeckMode,
+    isInquiryModalOpen,
+    inquiryModalMode,
+    closeInquiryModal,
+  } = useAgency();
 
+  // Initialize master GSAP scroll-driven 3D deconstruction & depth animations
+  useScrollAnimations();
+
+  // Initialize Lenis smooth inertia scrolling
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const desktopCheck = window.innerWidth >= 1024 && !window.matchMedia('(pointer: coarse)').matches;
-    setIsDesktop(desktopCheck);
-
-    if (!desktopCheck) return;
-
-    // On desktop devices with mouse, dynamically load Lenis inertia and GSAP scrubs after idle
-    let cleanupScroll: (() => void) | null = null;
-    let cleanupLenis: (() => void) | null = null;
-
-    const timer = setTimeout(() => {
-      import('./lib/lenis').then(({ initSmoothScroll, destroyLenis }) => {
-        initSmoothScroll();
-        cleanupLenis = () => destroyLenis();
-      });
-      import('./hooks/useScrollAnimations').then(({ initScrollAnimations }) => {
-        cleanupScroll = initScrollAnimations();
-      });
-    }, 1500);
-
+    const lenis = initSmoothScroll();
     return () => {
-      clearTimeout(timer);
-      cleanupLenis?.();
-      cleanupScroll?.();
+      lenis?.destroy();
     };
   }, []);
 
-  // Pause smooth scroll when Pitch Deck modal is active (Desktop only)
+  // Pause smooth scroll when Pitch Deck modal or Inquiry modal is active
   useEffect(() => {
-    if (!isDesktop) return;
-    import('./lib/lenis').then(({ stopLenis, startLenis }) => {
-      if (isDeckMode) {
-        stopLenis();
-      } else {
-        startLenis();
-      }
-    });
-  }, [isDeckMode, isDesktop]);
+    if (isDeckMode || isInquiryModalOpen) {
+      stopLenis();
+    } else {
+      startLenis();
+    }
+  }, [isDeckMode, isInquiryModalOpen]);
 
   return (
     <div
-      className="min-h-screen text-[#f3f4f6] font-sans transition-colors duration-500 relative"
+      className="min-h-screen w-full max-w-full overflow-x-hidden text-[#f3f4f6] font-sans transition-colors duration-500 relative"
       style={{ backgroundColor: themeConfig.canvasBg }}
     >
       <style>{`
@@ -87,12 +63,8 @@ const AppContent: React.FC = () => {
         }
       `}</style>
 
-      {/* Interactive WebGL / Three.js 3D Constellation & Bridge Mesh (Desktop Only, Lazy) */}
-      {isDesktop && (
-        <Suspense fallback={null}>
-          <ThreeCanvasBackground />
-        </Suspense>
-      )}
+      {/* Interactive WebGL / Three.js 3D Constellation & Bridge Mesh */}
+      <ThreeCanvasBackground />
 
       {/* Navigation Header */}
       <Navbar />
@@ -101,54 +73,43 @@ const AppContent: React.FC = () => {
         {/* Hero Section */}
         <Hero />
 
+        {/* 02 — Trending Indian Creators & Celebrity Moving Cards & 3D Grid */}
+        <IndianCreatorsShowcase />
+
         {/* About Section & 4 Capabilities */}
         <AboutSection />
 
         {/* 9-Step Approach Pipeline */}
         <ApproachPipeline />
 
-        {/* Experience & Core Numbers */}
-        <ExperienceStats />
-
-        {/* 2-Page Spread Case Studies (01-06) */}
+        {/* 06 — Featured Case Study • Brand–Creator Collaborations (Creator-First Thinking) */}
         <CaseStudiesSection />
 
-        {/* UGC Portfolio */}
+        {/* 07 — UGC & Creator Content Solutions */}
         <UgcPortfolio />
 
-        {/* Local Creator Activations & 5 Focus Pillars */}
-        <LocalActivations />
-
-        {/* More Campaign Experience Category Grid */}
-        <MoreExperienceGrid />
-
-        {/* Why CREATOR HAI & Match Formula */}
+        {/* Why CREATOR HAI & Philosophy */}
         <WhyUsSection />
 
         {/* Contact & Campaign Brief Builder */}
         <ContactSection />
       </main>
 
-      {/* Canvas-based Real-time Waveform Stream & Scroll Progress HUD (Desktop Only, Lazy) */}
-      {isDesktop && (
-        <Suspense fallback={null}>
-          <ScrollBridgeHUD />
-        </Suspense>
-      )}
+      {/* Canvas-based Real-time Waveform Stream & Scroll Progress HUD */}
+      <ScrollBridgeHUD />
 
-      {/* Canva 16:9 Pitch Deck Presentation Mode (Mounted only when active) */}
-      {isDeckMode && (
-        <Suspense fallback={null}>
-          <PitchDeckModal />
-        </Suspense>
-      )}
+      {/* 16:9 Pitch Deck Presentation Mode */}
+      {isDeckMode && <PitchDeckModal />}
 
-      {/* Floating Edit Controls Bar */}
-      {isEditMode && (
-        <Suspense fallback={null}>
-          <EditBar />
-        </Suspense>
-      )}
+      {/* Global Top Inquiry & Connect Modal (Brand & Creator Two Forms) */}
+      <TopInquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={closeInquiryModal}
+        defaultMode={inquiryModalMode}
+      />
+
+      {/* Representational Portfolio Transparency Modal */}
+      <RepresentationalModal />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { CaseStudy, UgcCampaign, LocalActivation, CategoryExperience, ContactInfo, ColorTheme } from '../types';
-import { initialCaseStudies, initialUgcCampaigns, initialLocalActivations, initialCategoryExperiences, initialContactInfo } from '../data/initialData';
+import { CaseStudy, CategoryExperience, ContactInfo, ColorTheme } from '../types';
+import { initialCaseStudies, initialCategoryExperiences, initialContactInfo } from '../data/initialData';
 
 export interface ThemeConfig {
   id: ColorTheme;
@@ -23,8 +23,6 @@ export interface ThemeConfig {
 
 interface AgencyContextType {
   caseStudies: CaseStudy[];
-  ugcCampaigns: UgcCampaign[];
-  localActivations: LocalActivation[];
   categoryExperiences: CategoryExperience[];
   contactInfo: ContactInfo;
   colorTheme: ColorTheme;
@@ -33,6 +31,15 @@ interface AgencyContextType {
   setIsEditMode: (val: boolean) => void;
   isDeckMode: boolean;
   setIsDeckMode: (val: boolean) => void;
+  isInquiryModalOpen: boolean;
+  setIsInquiryModalOpen: (val: boolean) => void;
+  inquiryModalMode: 'brand' | 'creator';
+  openInquiryModal: (mode?: 'brand' | 'creator') => void;
+  closeInquiryModal: () => void;
+  isRepresentationalModalOpen: boolean;
+  setIsRepresentationalModalOpen: (val: boolean) => void;
+  openRepresentationalModal: () => void;
+  closeRepresentationalModal: () => void;
   activeCaseStudyIndex: number;
   setActiveCaseStudyIndex: (idx: number) => void;
   updateCaseStudy: (id: string, updated: Partial<CaseStudy>) => void;
@@ -49,11 +56,14 @@ export const AgencyProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // If old data has thecollabbridge, refresh to initialCaseStudies
-        if (JSON.stringify(parsed).includes('thecollabbridge')) {
-          return initialCaseStudies;
+        if (
+          Array.isArray(parsed) &&
+          parsed.length === 1 &&
+          parsed[0]?.brandName === 'THE SARKARI RISE'
+        ) {
+          return parsed;
         }
-        return parsed;
+        return initialCaseStudies;
       } catch (e) {
         return initialCaseStudies;
       }
@@ -61,19 +71,8 @@ export const AgencyProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return initialCaseStudies;
   });
 
-  const [ugcCampaigns, setUgcCampaigns] = useState<UgcCampaign[]>(() => {
-    const saved = localStorage.getItem('creatorhai_ugc') || localStorage.getItem('tcb_ugc');
-    return saved ? JSON.parse(saved) : initialUgcCampaigns;
-  });
-
-  const [localActivations, setLocalActivations] = useState<LocalActivation[]>(() => {
-    const saved = localStorage.getItem('creatorhai_local') || localStorage.getItem('tcb_local');
-    return saved ? JSON.parse(saved) : initialLocalActivations;
-  });
-
   const [categoryExperiences, setCategoryExperiences] = useState<CategoryExperience[]>(() => {
-    const saved = localStorage.getItem('creatorhai_category_exp') || localStorage.getItem('tcb_category_exp');
-    return saved ? JSON.parse(saved) : initialCategoryExperiences;
+    return initialCategoryExperiences;
   });
 
   const [contactInfo, setContactInfo] = useState<ContactInfo>(() => {
@@ -104,7 +103,6 @@ export const AgencyProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       'coral',
       'monochrome',
     ];
-    // If user previously had default 'lime' stored from prior session, upgrade to 'neon-pink'
     if (saved && validThemes.includes(saved as ColorTheme)) {
       if (saved === 'lime') return 'neon-pink';
       return saved as ColorTheme;
@@ -114,19 +112,39 @@ export const AgencyProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [isDeckMode, setIsDeckMode] = useState<boolean>(false);
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState<boolean>(false);
+  const [inquiryModalMode, setInquiryModalMode] = useState<'brand' | 'creator'>('brand');
+  const [isRepresentationalModalOpen, setIsRepresentationalModalOpen] = useState<boolean>(false);
   const [activeCaseStudyIndex, setActiveCaseStudyIndex] = useState<number>(0);
+
+  const openInquiryModal = (mode: 'brand' | 'creator' = 'brand') => {
+    setInquiryModalMode(mode);
+    setIsInquiryModalOpen(true);
+  };
+
+  const closeInquiryModal = () => {
+    setIsInquiryModalOpen(false);
+  };
+
+  const openRepresentationalModal = () => {
+    setIsRepresentationalModalOpen(true);
+  };
+
+  const closeRepresentationalModal = () => {
+    setIsRepresentationalModalOpen(false);
+  };
 
   // Sync to localStorage
   useEffect(() => {
-    localStorage.setItem('tcb_case_studies', JSON.stringify(caseStudies));
+    localStorage.setItem('creatorhai_case_studies', JSON.stringify(caseStudies));
   }, [caseStudies]);
 
   useEffect(() => {
-    localStorage.setItem('tcb_contact', JSON.stringify(contactInfo));
+    localStorage.setItem('creatorhai_contact', JSON.stringify(contactInfo));
   }, [contactInfo]);
 
   useEffect(() => {
-    localStorage.setItem('tcb_theme', colorTheme);
+    localStorage.setItem('creatorhai_theme', colorTheme);
   }, [colorTheme]);
 
   const updateCaseStudy = (id: string, updated: Partial<CaseStudy>) => {
@@ -141,19 +159,18 @@ export const AgencyProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const resetToDefaults = () => {
     setCaseStudies(initialCaseStudies);
-    setUgcCampaigns(initialUgcCampaigns);
-    setLocalActivations(initialLocalActivations);
     setCategoryExperiences(initialCategoryExperiences);
     setContactInfo(initialContactInfo);
     setColorTheme('neon-pink');
+    localStorage.removeItem('creatorhai_case_studies');
+    localStorage.removeItem('creatorhai_contact');
+    localStorage.removeItem('creatorhai_theme');
     localStorage.removeItem('tcb_case_studies');
     localStorage.removeItem('tcb_contact');
     localStorage.removeItem('tcb_theme');
-    localStorage.removeItem('tcb_ugc');
-    localStorage.removeItem('tcb_local');
   };
 
-  // Color theme definitions featuring high contrast with Pink and matching accent pairings
+  // Color theme definitions featuring high contrast pairings
   const themeStyles: Record<ColorTheme, ThemeConfig> = {
     'neon-pink': {
       id: 'neon-pink',
@@ -162,80 +179,80 @@ export const AgencyProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       accent: '#FF1E88',
       accentBg: 'rgba(255, 30, 136, 0.12)',
       accentBorder: 'rgba(255, 30, 136, 0.35)',
-      accentText: '#FF3B9A',
-      accentBtnText: '#060308',
+      accentText: '#FF1E88',
+      accentBtnText: '#000000',
       secondaryAccent: '#00F5D4',
       secondaryBg: 'rgba(0, 245, 212, 0.12)',
       secondaryBorder: 'rgba(0, 245, 212, 0.35)',
       secondaryText: '#00F5D4',
-      badgeBg: 'bg-[#FF1E88]/15 text-[#FF3B9A] border-[#FF1E88]/30',
-      glowColor: 'rgba(255, 30, 136, 0.22)',
+      badgeBg: 'bg-[#ff1e88]/10 text-[#ff1e88] border-[#ff1e88]/25',
+      glowColor: 'rgba(255, 30, 136, 0.2)',
       selectionBg: '#FF1E88',
-      canvasBg: '#09080E',
+      canvasBg: '#090A0E',
     },
     'magenta-lime': {
       id: 'magenta-lime',
-      name: 'Hot Magenta & Volt Lime',
-      contrastPairName: 'Hot Magenta + Volt Lime',
+      name: 'Electric Magenta & Lime',
+      contrastPairName: 'Vivid Magenta + Electric Lime',
       accent: '#FF007F',
       accentBg: 'rgba(255, 0, 127, 0.12)',
       accentBorder: 'rgba(255, 0, 127, 0.35)',
-      accentText: '#FF2E93',
-      accentBtnText: '#050308',
+      accentText: '#FF007F',
+      accentBtnText: '#FFFFFF',
       secondaryAccent: '#CCFF00',
       secondaryBg: 'rgba(204, 255, 0, 0.12)',
       secondaryBorder: 'rgba(204, 255, 0, 0.35)',
       secondaryText: '#CCFF00',
-      badgeBg: 'bg-[#FF007F]/15 text-[#FF2E93] border-[#FF007F]/30',
-      glowColor: 'rgba(255, 0, 127, 0.22)',
+      badgeBg: 'bg-[#ff007f]/10 text-[#ff007f] border-[#ff007f]/25',
+      glowColor: 'rgba(255, 0, 127, 0.2)',
       selectionBg: '#FF007F',
-      canvasBg: '#08070D',
+      canvasBg: '#08080C',
     },
     'rose-amber': {
       id: 'rose-amber',
-      name: 'Sunset Rose & Radiant Amber',
-      contrastPairName: 'Sunset Rose + Warm Amber',
-      accent: '#FB7185',
-      accentBg: 'rgba(251, 113, 133, 0.12)',
-      accentBorder: 'rgba(251, 113, 133, 0.35)',
-      accentText: '#FB7185',
-      accentBtnText: '#0D0609',
-      secondaryAccent: '#FBBF24',
-      secondaryBg: 'rgba(251, 191, 36, 0.12)',
-      secondaryBorder: 'rgba(251, 191, 36, 0.35)',
+      name: 'Hot Rose & Golden Amber',
+      contrastPairName: 'Hot Rose + Warm Gold',
+      accent: '#F43F5E',
+      accentBg: 'rgba(244, 63, 94, 0.12)',
+      accentBorder: 'rgba(244, 63, 94, 0.35)',
+      accentText: '#F43F5E',
+      accentBtnText: '#FFFFFF',
+      secondaryAccent: '#F59E0B',
+      secondaryBg: 'rgba(245, 158, 11, 0.12)',
+      secondaryBorder: 'rgba(245, 158, 11, 0.35)',
       secondaryText: '#FBBF24',
-      badgeBg: 'bg-rose-500/15 text-rose-400 border-rose-500/30',
-      glowColor: 'rgba(251, 113, 133, 0.20)',
-      selectionBg: '#FB7185',
-      canvasBg: '#0B080A',
+      badgeBg: 'bg-[#f43f5e]/10 text-[#f43f5e] border-[#f43f5e]/25',
+      glowColor: 'rgba(244, 63, 94, 0.2)',
+      selectionBg: '#F43F5E',
+      canvasBg: '#0A080A',
     },
     'electric-violet': {
       id: 'electric-violet',
       name: 'Hot Pink & Neon Violet',
-      contrastPairName: 'Hot Pink + Neon Violet',
+      contrastPairName: 'Hot Pink + Violet Cyber',
       accent: '#FF2A85',
       accentBg: 'rgba(255, 42, 133, 0.12)',
       accentBorder: 'rgba(255, 42, 133, 0.35)',
-      accentText: '#FF3D94',
-      accentBtnText: '#050208',
+      accentText: '#FF2A85',
+      accentBtnText: '#FFFFFF',
       secondaryAccent: '#A855F7',
       secondaryBg: 'rgba(168, 85, 247, 0.12)',
       secondaryBorder: 'rgba(168, 85, 247, 0.35)',
       secondaryText: '#C084FC',
-      badgeBg: 'bg-pink-500/15 text-pink-400 border-pink-500/30',
-      glowColor: 'rgba(255, 42, 133, 0.22)',
+      badgeBg: 'bg-[#ff2a85]/10 text-[#ff2a85] border-[#ff2a85]/25',
+      glowColor: 'rgba(255, 42, 133, 0.2)',
       selectionBg: '#FF2A85',
-      canvasBg: '#0A0711',
+      canvasBg: '#090810',
     },
     lime: {
       id: 'lime',
       name: 'Electric Lime & Emerald',
-      contrastPairName: 'Electric Lime + Emerald',
+      contrastPairName: 'Lime Neon + Emerald Depth',
       accent: '#CCFF00',
       accentBg: 'rgba(204, 255, 0, 0.1)',
       accentBorder: 'rgba(204, 255, 0, 0.3)',
       accentText: '#CCFF00',
-      accentBtnText: '#08080C',
+      accentBtnText: '#0A0A00',
       secondaryAccent: '#10B981',
       secondaryBg: 'rgba(16, 185, 129, 0.1)',
       secondaryBorder: 'rgba(16, 185, 129, 0.3)',
@@ -243,22 +260,22 @@ export const AgencyProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       badgeBg: 'bg-[#ccff00]/10 text-[#ccff00] border-[#ccff00]/25',
       glowColor: 'rgba(204, 255, 0, 0.15)',
       selectionBg: '#CCFF00',
-      canvasBg: '#090A0D',
+      canvasBg: '#08090A',
     },
     cobalt: {
       id: 'cobalt',
       name: 'Hyper Cobalt & Sky',
-      contrastPairName: 'Hyper Cobalt + Sky',
+      contrastPairName: 'Sky Blue + Cobalt Indigo',
       accent: '#38BDF8',
       accentBg: 'rgba(56, 189, 248, 0.1)',
       accentBorder: 'rgba(56, 189, 248, 0.3)',
       accentText: '#38BDF8',
-      accentBtnText: '#050B14',
+      accentBtnText: '#040914',
       secondaryAccent: '#818CF8',
       secondaryBg: 'rgba(129, 140, 248, 0.1)',
       secondaryBorder: 'rgba(129, 140, 248, 0.3)',
       secondaryText: '#A5B4FC',
-      badgeBg: 'bg-sky-500/10 text-sky-400 border-sky-500/25',
+      badgeBg: 'bg-[#38bdf8]/10 text-[#38bdf8] border-[#38bdf8]/25',
       glowColor: 'rgba(56, 189, 248, 0.15)',
       selectionBg: '#38BDF8',
       canvasBg: '#080A10',
@@ -305,8 +322,6 @@ export const AgencyProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     <AgencyContext.Provider
       value={{
         caseStudies,
-        ugcCampaigns,
-        localActivations,
         categoryExperiences,
         contactInfo,
         colorTheme,
@@ -315,6 +330,15 @@ export const AgencyProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setIsEditMode,
         isDeckMode,
         setIsDeckMode,
+        isInquiryModalOpen,
+        setIsInquiryModalOpen,
+        inquiryModalMode,
+        openInquiryModal,
+        closeInquiryModal,
+        isRepresentationalModalOpen,
+        setIsRepresentationalModalOpen,
+        openRepresentationalModal,
+        closeRepresentationalModal,
         activeCaseStudyIndex,
         setActiveCaseStudyIndex,
         updateCaseStudy,

@@ -1,594 +1,628 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useAgency } from '../context/AgencyContext';
-import { CaseStudy } from '../types';
 import {
-  Play,
-  QrCode,
-  ExternalLink,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  Sparkles,
-  ArrowRight,
+  Compass,
+  PenTool,
+  Megaphone,
   TrendingUp,
-  Clock,
-  Users,
-  Instagram,
-  Youtube,
-  Share2,
-  Bookmark,
-  Heart,
-  Volume2,
-  Maximize2
+  ArrowRight,
+  MessageCircle,
+  Presentation,
+  CheckCircle2,
+  Info,
+  Maximize2,
+  Sparkles
 } from 'lucide-react';
+import {
+  UpGradLogo,
+  SimplilearnLogo,
+  ColgateLogo,
+  EverestLogo,
+  LibasLogo,
+  BibaLogo,
+  VivoLogo,
+  RealmeLogo,
+  VicksLogo,
+  PlantBasedSugarControlLogo
+} from './IndustryLogos';
 
 export const CaseStudiesSection: React.FC = () => {
-  const { caseStudies, activeCaseStudyIndex, setActiveCaseStudyIndex, themeConfig, isEditMode, updateCaseStudy } = useAgency();
-  const [mobileTab, setMobileTab] = useState<'campaign' | 'proof'>('campaign');
-  const [selectedVideoModal, setSelectedVideoModal] = useState<CaseStudy | null>(null);
-  const [copiedLink, setCopiedLink] = useState(false);
-
-  const current = caseStudies[activeCaseStudyIndex] || caseStudies[0];
-
-  const handleCopyLink = (url?: string) => {
-    navigator.clipboard.writeText(url || window.location.href);
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 2000);
-  };
+  const { themeConfig, openInquiryModal, setIsDeckMode, openRepresentationalModal } = useAgency();
+  const [activeRow, setActiveRow] = useState<number | null>(null);
 
   return (
-    <section id="case-studies" className="py-20 lg:py-28 bg-[#090a0d] border-b border-white/10 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 text-left"
-        >
-          <div>
-            <div
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 border"
-              style={{
-                backgroundColor: themeConfig.accentBg,
-                borderColor: themeConfig.accentBorder,
-                color: themeConfig.accentText,
-              }}
-            >
-              PROVEN 100% WORKING CASE STUDIES
+    <section
+      id="case-studies"
+      className="py-12 sm:py-16 bg-[#08090d] border-b border-white/10 relative scroll-mt-20 overflow-hidden"
+    >
+      {/* Anchor for backward compatibility */}
+      <span id="experience" className="absolute -top-24 pointer-events-none" />
+
+      {/* Main Container - Crisp, High-Definition Pixel-Accurate Poster Container */}
+      <div className="max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8">
+        
+        {/* Poster Wrapper with subtle drop shadow and border */}
+        <div className="rounded-3xl sm:rounded-[36px] overflow-hidden border border-white/15 bg-white shadow-2xl">
+          
+          {/* ======================================================== */}
+          {/* 1. TOP HERO BANNER (DARK THEME COMPOSITE)                */}
+          {/* ======================================================== */}
+          <div className="relative bg-[#090b10] border-b border-neutral-800 text-white overflow-hidden p-6 sm:p-10 lg:p-14">
+            
+            {/* Background Image / Ambient Gradient */}
+            <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-screen">
+              <img
+                src="/src/assets/images/brands_industries_hero_banner_1791692336474.jpg"
+                alt="Industries Composite Banner"
+                className="w-full h-full object-cover object-center"
+                referrerPolicy="no-referrer"
+              />
             </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#090b10] via-[#090b10]/95 to-transparent pointer-events-none" />
 
-            <h2 className="text-3xl sm:text-5xl font-display font-bold text-white tracking-tight leading-tight">
-              Featured <span className="font-serif italic font-normal text-white">Campaign Cases.</span>
-            </h2>
-
-            <p className="mt-3 text-sm sm:text-base text-neutral-300 max-w-xl leading-relaxed">
-              Explore how CREATOR HAI, recognized as the best influencer marketing agency, architects 100% working campaigns—pairing rigorous creator calibration with verified commercial outcomes.
-            </p>
-          </div>
-
-          {/* Prev / Next buttons */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() =>
-                setActiveCaseStudyIndex(
-                  activeCaseStudyIndex > 0 ? activeCaseStudyIndex - 1 : caseStudies.length - 1
-                )
-              }
-              aria-label="Previous Case Study"
-              className="p-3 rounded-xl bg-neutral-900 border border-white/10 hover:border-white/25 text-white transition-colors"
-              title="Previous Case Study"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <div className="px-4 py-2 rounded-xl bg-neutral-900 border border-white/10 font-mono text-xs text-neutral-300 font-bold">
-              {current.number} / 0{caseStudies.length}
-            </div>
-            <button
-              onClick={() =>
-                setActiveCaseStudyIndex(
-                  activeCaseStudyIndex < caseStudies.length - 1 ? activeCaseStudyIndex + 1 : 0
-                )
-              }
-              aria-label="Next Case Study"
-              className="p-3 rounded-xl bg-neutral-900 border border-white/10 hover:border-white/25 text-white transition-colors"
-              title="Next Case Study"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Case Study Selection Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
-          {caseStudies.map((cs, idx) => {
-            const isSelected = activeCaseStudyIndex === idx;
-            return (
-              <button
-                key={cs.id}
-                onClick={() => setActiveCaseStudyIndex(idx)}
-                aria-label={`View Case Study ${cs.number}: ${cs.brandName}`}
-                className={`px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-2.5 border ${
-                  isSelected
-                    ? 'bg-[#1a1b24] text-white border-white/40 shadow-lg'
-                    : 'bg-[#111217] text-neutral-400 border-white/5 hover:border-white/20 hover:text-neutral-200'
-                }`}
-              >
-                <span
-                  className="font-mono text-[11px] font-extrabold"
-                  style={{ color: isSelected ? themeConfig.accent : '#6b7280' }}
-                >
-                  {cs.number}
-                </span>
-                <span>{cs.brandName}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Mobile Spread View Selector (Page 1 vs Page 2) */}
-        <div className="flex lg:hidden rounded-xl bg-neutral-900 p-1 mb-6 border border-white/10">
-          <button
-            onClick={() => setMobileTab('campaign')}
-            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors ${
-              mobileTab === 'campaign' ? 'bg-white text-black shadow' : 'text-neutral-400'
-            }`}
-          >
-            Page 1: Campaign Brief
-          </button>
-          <button
-            onClick={() => setMobileTab('proof')}
-            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors ${
-              mobileTab === 'proof' ? 'bg-white text-black shadow' : 'text-neutral-400'
-            }`}
-          >
-            Page 2: Proof & Reels
-          </button>
-        </div>
-
-        {/* THE 2-PAGE SPREAD CONTAINER */}
-        <motion.div
-          id="case-study-spread-container"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="rounded-3xl bg-[#111218] border border-white/15 shadow-2xl overflow-hidden transform-gpu"
-        >
-          {/* Top Pitch Deck Bar */}
-          <div className="px-6 py-4 bg-[#161720] border-b border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs">
-            <div className="flex items-center gap-3">
-              <span className="font-mono font-black text-white px-2 py-0.5 rounded bg-white/10">
-                CASE STUDY {current.number}
-              </span>
-              <span className="text-neutral-300 font-bold">{current.brandName}</span>
-              <span className="text-neutral-500">•</span>
-              <span className="text-neutral-400">{current.category}</span>
-            </div>
-
-            <div className="flex items-center gap-4 text-[11px] text-neutral-400 font-mono">
-              <span className="hidden sm:inline">2-PAGE SPREAD PITCH DECK</span>
-              <span
-                className="px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider"
-                style={{
-                  backgroundColor: themeConfig.accentBg,
-                  color: themeConfig.accentText,
-                }}
-              >
-                {current.duration}
-              </span>
-            </div>
-          </div>
-
-          {/* Spread Body: Page 1 (Left) & Page 2 (Right) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
-            {/* ================= PAGE 1 — CAMPAIGN ================= */}
-            <div
-              className={`p-6 sm:p-10 flex flex-col justify-between space-y-8 text-left ${
-                mobileTab === 'proof' ? 'hidden lg:flex' : 'flex'
-              }`}
-            >
-              <div>
-                {/* Page 1 Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center font-display font-extrabold text-lg shadow-md"
-                      style={{
-                        backgroundColor: themeConfig.accent,
-                        color: themeConfig.accentBtnText,
-                      }}
-                    >
-                      {current.brandLogoText}
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono tracking-widest uppercase text-neutral-400 block font-bold">
-                        BRAND CASE
-                      </span>
-                      <h3 className="text-xl sm:text-2xl font-display font-black text-white tracking-tight">
-                        {current.brandName}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <span className="text-xs font-mono text-neutral-400 font-bold bg-white/5 px-2.5 py-1 rounded-lg border border-white/5">
-                    SPREAD P.01
+            <div className="relative z-10 max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-8 text-left">
+              <div className="max-w-2xl">
+                {/* Top tracking label */}
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.25em] text-neutral-400 uppercase">
+                    BRANDS WE'VE WORKED WITH
                   </span>
+                  <span className="h-1 w-1 rounded-full bg-neutral-600" />
+                  <button
+                    onClick={openRepresentationalModal}
+                    className="text-[10px] font-mono text-amber-400/90 hover:text-amber-300 underline cursor-pointer"
+                  >
+                    Representational Portfolio
+                  </button>
                 </div>
 
-                {/* Campaign Title & Category */}
-                <div className="mb-6">
-                  <h4 className="text-2xl sm:text-3xl font-display font-extrabold text-white tracking-tight leading-snug">
-                    {current.title}
-                  </h4>
-                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mt-1">
-                    {current.category} • {current.platforms.join(' + ')}
-                  </p>
-                </div>
+                {/* Main Heading */}
+                <h2 className="text-3xl sm:text-5xl lg:text-[54px] font-display font-extrabold text-white tracking-tight leading-[1.08]">
+                  Creating Impactful Stories<br />Across Industries
+                </h2>
 
-                {/* 3-5 Campaign Stats Chips */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
-                  <div className="p-3 rounded-xl bg-[#171822] border border-white/5">
-                    <div className="text-[10px] font-mono text-neutral-400 uppercase">Creators</div>
-                    <div className="text-sm font-bold text-white mt-0.5">{current.creatorsCount}</div>
-                  </div>
-                  <div className="p-3 rounded-xl bg-[#171822] border border-white/5">
-                    <div className="text-[10px] font-mono text-neutral-400 uppercase">Platform</div>
-                    <div className="text-sm font-bold text-white mt-0.5">{current.platforms.join(' & ')}</div>
-                  </div>
-                  <div className="p-3 rounded-xl bg-[#171822] border border-white/5 col-span-2 sm:col-span-1">
-                    <div className="text-[10px] font-mono text-neutral-400 uppercase">Execution</div>
-                    <div className="text-sm font-bold text-white mt-0.5 truncate">{current.duration}</div>
-                  </div>
-                </div>
-
-                {/* Objective */}
-                <div className="mb-8 p-5 rounded-2xl bg-white/[0.03] border border-white/10">
-                  <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5" style={{ color: themeConfig.accent }} />
-                    <span>OBJECTIVE</span>
-                  </div>
-                  <p className="text-sm sm:text-base text-neutral-200 font-medium leading-relaxed">
-                    {current.objective}
-                  </p>
-                </div>
-
-                {/* Campaign Format / Structure */}
-                <div className="mb-8">
-                  <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-3">
-                    CAMPAIGN FORMAT & HIGHLIGHTS
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {current.formatTags.map((tag, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="px-3 py-1 rounded-lg text-xs font-medium bg-neutral-900 border border-neutral-700/80 text-neutral-200 flex items-center gap-1.5"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: themeConfig.accent }} />
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* My Role (Pipeline Management) */}
-                <div>
-                  <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2">
-                    MY ROLE & END-TO-END EXECUTION
-                  </div>
-                  <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed mb-3">
-                    {current.myRole}
-                  </p>
-
-                  <div className="p-3 rounded-xl bg-black/40 border border-white/5 flex flex-wrap items-center gap-2">
-                    {current.myRoleSteps.map((step, sIdx) => (
-                      <React.Fragment key={sIdx}>
-                        <span className="text-[11px] font-semibold text-white">
-                          {step}
-                        </span>
-                        {sIdx < current.myRoleSteps.length - 1 && (
-                          <span className="text-neutral-600 text-xs font-bold">→</span>
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </div>
+                {/* Subtitle Paragraph */}
+                <p className="mt-4 text-xs sm:text-sm lg:text-[15px] text-neutral-300 leading-relaxed font-normal max-w-xl">
+                  Every industry has a unique story, and every brand deserves a distinct voice. From technology and fashion to education, FMCG and wellness, we've collaborated with brands across diverse sectors to create engaging content, meaningful connections and impactful digital experiences.
+                </p>
               </div>
 
-              {/* Page 1 Footer */}
-              <div className="pt-6 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400">
-                <span>CREATOR HAI — Best Influencer Marketing Agency</span>
-                <span className="font-mono">Section 1.0: Strategy & Architecture</span>
-              </div>
-            </div>
-
-            {/* ================= PAGE 2 — PROOF & MEDIA ================= */}
-            <div
-              className={`p-6 sm:p-10 flex flex-col justify-between space-y-8 bg-[#0d0e13] text-left ${
-                mobileTab === 'campaign' ? 'hidden lg:flex' : 'flex'
-              }`}
-            >
-              <div>
-                {/* Page 2 Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <span className="text-[10px] font-mono tracking-widest uppercase text-neutral-400 block font-bold">
-                      VISUAL PROOF & ENGAGEMENT
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-display font-black text-white tracking-tight">
-                      Content That Performed
-                    </h3>
-                  </div>
-
-                  <span className="text-xs font-mono text-neutral-400 font-bold bg-white/5 px-2.5 py-1 rounded-lg border border-white/5">
-                    SPREAD P.02
-                  </span>
-                </div>
-
-                {/* Hero Result Banner */}
-                <div
-                  className="p-6 rounded-2xl mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border"
+              {/* Action Buttons & Deck Opener */}
+              <div className="flex flex-wrap items-center gap-3 shrink-0">
+                <button
+                  onClick={() => openInquiryModal('brand')}
+                  className="px-5 py-3 rounded-xl font-bold text-xs flex items-center gap-2 transition-all hover:scale-105 shadow-xl cursor-pointer"
                   style={{
-                    backgroundColor: themeConfig.accentBg,
-                    borderColor: themeConfig.accentBorder,
+                    backgroundColor: themeConfig.accent,
+                    color: themeConfig.accentBtnText,
                   }}
                 >
-                  <div>
-                    <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
-                      {current.resultLabel}
-                    </div>
-                    <div
-                      className="text-3xl sm:text-4xl font-display font-black tracking-tight mt-1"
-                      style={{ color: themeConfig.accent }}
-                    >
-                      {current.resultStat}
-                    </div>
+                  <MessageCircle className="w-4 h-4 fill-current" />
+                  <span>Start Campaign</span>
+                </button>
+
+                <button
+                  onClick={() => setIsDeckMode(true)}
+                  className="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-medium text-xs flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Presentation className="w-4 h-4" />
+                  <span>Full Pitch Deck</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* ======================================================== */}
+          {/* 2. THE 5 CATEGORY ROWS (01 - 05) - EXACT POSTER LAYOUT   */}
+          {/* ======================================================== */}
+          <div className="divide-y divide-neutral-200 bg-[#fafbfe]">
+
+            {/* ------------------------------------------------------ */}
+            {/* ROW 01: EdTech & Education                             */}
+            {/* ------------------------------------------------------ */}
+            <div className="p-6 sm:p-10 lg:p-12 hover:bg-white transition-colors">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                
+                {/* Left Text Column */}
+                <div className="lg:col-span-5 text-left space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-700 tracking-wider">
+                    <span>01</span>
+                    <span className="w-6 h-[1.5px] bg-neutral-400" />
                   </div>
+                  
+                  <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-neutral-900 tracking-tight">
+                    EdTech & Education
+                  </h3>
 
-                  <div className="sm:text-right">
-                    <span className="text-xs px-3 py-1 rounded-full bg-black/40 text-white font-bold border border-white/10">
-                      Verified Client Outcome
-                    </span>
-                  </div>
-                </div>
+                  <h4 className="text-sm sm:text-base font-bold text-neutral-800 leading-snug">
+                    Empowering Learning Through Creative Storytelling
+                  </h4>
 
-                {/* Large Creator Video / Reel Screenshot Mockup */}
-                <div className="relative rounded-2xl overflow-hidden border border-white/15 group shadow-2xl mb-6 aspect-[16/9] bg-black">
-                  <img
-                    src={current.videoThumbnail}
-                    alt={current.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/20" />
-
-                  {/* Play Button Trigger */}
-                  <button
-                    onClick={() => setSelectedVideoModal(current)}
-                    aria-label={`Play preview video for ${current.brandName}`}
-                    className="absolute inset-0 flex items-center justify-center cursor-pointer group-hover:scale-110 transition-transform"
-                    title="Play Preview"
-                  >
-                    <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform"
-                      style={{
-                        backgroundColor: themeConfig.accent,
-                        color: themeConfig.accentBtnText,
-                      }}
-                    >
-                      <Play className="w-7 h-7 fill-current translate-x-0.5" />
-                    </div>
-                  </button>
-
-                  {/* Video Overlay Top Badge */}
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-xs text-white pointer-events-none">
-                    <span className="px-2.5 py-1 rounded-md bg-black/70 backdrop-blur-md border border-white/15 font-mono text-[11px]">
-                      {current.platforms.includes('YouTube') ? 'YouTube Video / Shorts' : 'Instagram Reel'}
-                    </span>
-                    <span className="px-2 py-1 rounded-md bg-black/70 font-mono text-[11px]">
-                      {current.videoDuration || '0:58'}
-                    </span>
-                  </div>
-
-                  {/* Video Overlay Bottom Caption */}
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-neutral-200 pointer-events-none">
-                    <div>
-                      <div className="font-bold text-white text-sm truncate max-w-[280px]">
-                        {current.brandName} Showcase
-                      </div>
-                      <div className="text-[11px] text-neutral-300">
-                        {current.creatorsCount} • {current.resultStat}
-                      </div>
-                    </div>
-                    <span className="text-[11px] underline text-white font-semibold">
-                      Click to Preview Reel
-                    </span>
-                  </div>
-                </div>
-
-                {/* 4 Creator Thumbnails Showcase */}
-                <div className="mb-6">
-                  <div className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-3 flex items-center justify-between">
-                    <span>CREATOR HIGHLIGHTS</span>
-                    <span className="text-[10px] font-mono text-neutral-400">
-                      Sample Creator Roster ({current.creatorThumbnails.length} of {current.creatorsCount})
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                    {current.creatorThumbnails.map((cr, cIdx) => (
-                      <div
-                        key={cIdx}
-                        className="rounded-xl overflow-hidden bg-[#161720] border border-white/10 hover:border-white/30 transition-all group"
-                      >
-                        <div className="aspect-square relative overflow-hidden bg-black">
-                          <img
-                            src={cr.image}
-                            alt={cr.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                          <span className="absolute bottom-1.5 left-2 font-mono text-[10px] font-bold text-white">
-                            {cr.views} views
-                          </span>
-                        </div>
-                        <div className="p-2 text-left">
-                          <div className="text-xs font-bold text-white truncate">{cr.name}</div>
-                          <div className="text-[10px] text-neutral-400 font-mono truncate">{cr.handle}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Live Links & QR Code Section */}
-                <div className="p-4 rounded-2xl bg-[#14151e] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center shrink-0">
-                      <QrCode className="w-10 h-10 text-black" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-white">
-                        Scan or Visit Live Campaign Content
-                      </div>
-                      <div className="text-[11px] text-neutral-400 font-mono truncate max-w-[220px]">
-                        {current.qrValue || 'creatorhai.com/proof'}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 w-full sm:w-auto">
-                    <button
-                      onClick={() => handleCopyLink(current.liveContentUrl)}
-                      aria-label="Copy campaign live proof link to clipboard"
-                      className="px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-semibold text-neutral-200 border border-white/10 transition-colors"
-                      title="Copy proof link"
-                    >
-                      {copiedLink ? 'Link Copied!' : 'Copy Link'}
-                    </button>
-                    <a
-                      href={current.liveContentUrl || 'https://instagram.com'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3.5 py-2 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-transform hover:scale-105"
-                      style={{
-                        backgroundColor: themeConfig.accent,
-                        color: themeConfig.accentBtnText,
-                      }}
-                    >
-                      <span>VIEW LIVE CONTENT</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  </div>
-                </div>
-
-                {/* Key Takeaway / Campaign Highlight Box */}
-                <div className="p-4 rounded-xl bg-white/[0.02] border-l-2 border-white/40 text-left">
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-1">
-                    KEY TAKEAWAY & CAMPAIGN HIGHLIGHT
-                  </div>
-                  <p className="text-xs sm:text-sm text-neutral-200 font-medium italic">
-                    "{current.campaignHighlight}"
+                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                    Education is evolving, and so are the ways people learn. We work with EdTech brands to transform learning experiences into engaging digital stories that inspire curiosity, build trust and connect with aspiring learners.
                   </p>
+
+                  {/* Brand Logos Row */}
+                  <div className="pt-4 flex flex-wrap items-center gap-6">
+                    <UpGradLogo />
+                    <UpGradLogo className="opacity-90 scale-95" />
+                    <SimplilearnLogo />
+                  </div>
+                </div>
+
+                {/* Right Visual Cards (2 Columns) */}
+                <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  {/* Card 1: upGrad Learn Build Grow */}
+                  <div className="rounded-2xl overflow-hidden bg-[#0c1527] text-white flex flex-col justify-between shadow-md border border-neutral-800 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="p-5 flex items-start justify-between gap-3">
+                      <div className="space-y-1">
+                        <div className="text-base sm:text-lg font-black tracking-tight leading-tight">
+                          <div>Learn</div>
+                          <div>Build</div>
+                          <div>Grow</div>
+                        </div>
+                        <div className="pt-2">
+                          <UpGradLogo className="text-red-500 scale-95 origin-left" />
+                        </div>
+                        <p className="text-[10px] text-neutral-300 font-normal leading-tight pt-1 max-w-[140px]">
+                          Career-focused learning for a better tomorrow
+                        </p>
+                      </div>
+
+                      <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-white/10">
+                        <img
+                          src="/src/assets/images/edtech_student_headphones_1791692174554.jpg"
+                          alt="Student wearing headphones learning online"
+                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card 2: Simplilearn Laptop Desk */}
+                  <div className="rounded-2xl overflow-hidden bg-white text-neutral-900 flex flex-col justify-between shadow-md border border-neutral-200 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="h-32 sm:h-36 overflow-hidden relative bg-neutral-100">
+                      <img
+                        src="/src/assets/images/simplilearn_laptop_desk_1791692284832.jpg"
+                        alt="Simplilearn digital masterclass on laptop"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <div className="p-3.5 bg-white flex flex-col items-center justify-center text-center border-t border-neutral-100">
+                      <SimplilearnLogo />
+                      <span className="text-[10px] text-neutral-500 font-medium mt-0.5">
+                        Skills for a better tomorrow
+                      </span>
+                    </div>
+                  </div>
+
                 </div>
               </div>
+            </div>
 
-              {/* Page 2 Footer */}
-              <div className="pt-6 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400">
-                <span>CREATOR HAI — 100% Working Campaign Proof</span>
-                <span className="font-mono">Section 2.0: Proof & Performance</span>
+            {/* ------------------------------------------------------ */}
+            {/* ROW 02: FMCG & Consumer Goods                          */}
+            {/* ------------------------------------------------------ */}
+            <div className="p-6 sm:p-10 lg:p-12 hover:bg-white transition-colors">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                
+                {/* Left Text Column */}
+                <div className="lg:col-span-5 text-left space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-700 tracking-wider">
+                    <span>02</span>
+                    <span className="w-6 h-[1.5px] bg-neutral-400" />
+                  </div>
+                  
+                  <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-neutral-900 tracking-tight">
+                    FMCG & Consumer Goods
+                  </h3>
+
+                  <h4 className="text-sm sm:text-base font-bold text-neutral-800 leading-snug">
+                    Making Everyday Brands More Memorable
+                  </h4>
+
+                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                    Everyday products deserve extraordinary storytelling. We help FMCG brands create meaningful connections with consumers through relatable content, compelling visuals and engaging brand communication.
+                  </p>
+
+                  {/* Brand Logos Row */}
+                  <div className="pt-4 flex flex-wrap items-center gap-6">
+                    <ColgateLogo />
+                    <EverestLogo />
+                  </div>
+                </div>
+
+                {/* Right Visual Cards (2 Columns) */}
+                <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  {/* Card 1: Colgate Red Card */}
+                  <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-[#c81a28] to-[#960f1b] text-white flex flex-col justify-between shadow-md border border-red-900 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="p-5 flex items-start justify-between gap-3">
+                      <div className="space-y-1.5">
+                        <div className="inline-block px-2 py-0.5 bg-white text-[#c81a28] rounded font-serif italic text-xs font-bold shadow-sm">
+                          Colgate
+                        </div>
+                        <div className="text-sm sm:text-base font-extrabold leading-tight text-white pt-2 max-w-[130px]">
+                          For a Healthier Brighter Smile
+                        </div>
+                      </div>
+
+                      <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-white/20">
+                        <img
+                          src="/src/assets/images/colgate_smile_toothbrush_1791692187659.jpg"
+                          alt="Smiling woman holding toothbrush"
+                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card 2: Everest Masala Card */}
+                  <div className="rounded-2xl overflow-hidden bg-[#241109] text-white flex flex-col justify-between shadow-md border border-amber-950 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="p-4 flex items-center justify-between border-b border-amber-900/40 bg-black/20">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded bg-red-600 font-black text-[10px] text-white tracking-widest uppercase">
+                          EVEREST
+                        </span>
+                        <span className="text-xs font-serif font-bold text-amber-200">Masala</span>
+                      </div>
+                      <span className="text-[11px] font-medium text-amber-300/90 italic">
+                        Har Din Kuch Naya
+                      </span>
+                    </div>
+
+                    <div className="h-32 sm:h-36 overflow-hidden relative">
+                      <img
+                        src="/src/assets/images/spices_indian_everest_1791692250990.jpg"
+                        alt="Indian culinary spices bowls"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
+
+            {/* ------------------------------------------------------ */}
+            {/* ROW 03: Fashion & Lifestyle                            */}
+            {/* ------------------------------------------------------ */}
+            <div className="p-6 sm:p-10 lg:p-12 hover:bg-white transition-colors">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                
+                {/* Left Text Column */}
+                <div className="lg:col-span-5 text-left space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-700 tracking-wider">
+                    <span>03</span>
+                    <span className="w-6 h-[1.5px] bg-neutral-400" />
+                  </div>
+                  
+                  <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-neutral-900 tracking-tight">
+                    Fashion & Lifestyle
+                  </h3>
+
+                  <h4 className="text-sm sm:text-base font-bold text-neutral-800 leading-snug">
+                    Turning Style Into Stories
+                  </h4>
+
+                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                    Fashion is more than clothing; it's an expression of identity, culture and individuality. We collaborate with fashion and lifestyle brands to create visually captivating stories that reflect their unique aesthetics and connect with today's style-conscious consumers.
+                  </p>
+
+                  {/* Brand Logos Row */}
+                  <div className="pt-4 flex flex-wrap items-center gap-6">
+                    <LibasLogo />
+                    <BibaLogo />
+                  </div>
+                </div>
+
+                {/* Right Visual Cards (2 Columns) */}
+                <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  {/* Card 1: Libas Mulberry Card */}
+                  <div className="rounded-2xl overflow-hidden bg-[#2b0c1e] text-white flex flex-col justify-between shadow-md border border-purple-950 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="p-5 flex items-start justify-between gap-3">
+                      <div className="space-y-1">
+                        <span className="font-serif text-lg font-bold text-white tracking-wide block">
+                          Libas
+                        </span>
+                        <div className="text-xs sm:text-sm font-medium text-pink-200/90 pt-1 leading-snug">
+                          Celebrate<br />Your Story
+                        </div>
+                      </div>
+
+                      <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-purple-400/20">
+                        <img
+                          src="/src/assets/images/fashion_indian_ethnic_1791692199403.jpg"
+                          alt="Indian festive purple embroidered silk fashion"
+                          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card 2: BIBA Gold Ethnic Card */}
+                  <div className="rounded-2xl overflow-hidden bg-[#381f09] text-white flex flex-col justify-between shadow-md border border-amber-950 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="p-5 flex items-start justify-between gap-3">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1 font-serif text-base font-bold text-amber-200 tracking-widest">
+                          <span className="text-amber-400">❖</span>
+                          <span>BIBA</span>
+                        </div>
+                        <div className="text-xs sm:text-sm font-medium text-amber-100/90 pt-1 leading-snug">
+                          Timeless<br />Elegance
+                        </div>
+                      </div>
+
+                      <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-amber-400/20">
+                        <img
+                          src="/src/assets/images/biba_ethnic_yellow_1791692210304.jpg"
+                          alt="Indian yellow ethnic festive kurti"
+                          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            {/* ------------------------------------------------------ */}
+            {/* ROW 04: Technology & Electronics                       */}
+            {/* ------------------------------------------------------ */}
+            <div className="p-6 sm:p-10 lg:p-12 hover:bg-white transition-colors">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                
+                {/* Left Text Column */}
+                <div className="lg:col-span-5 text-left space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-700 tracking-wider">
+                    <span>04</span>
+                    <span className="w-6 h-[1.5px] bg-neutral-400" />
+                  </div>
+                  
+                  <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-neutral-900 tracking-tight">
+                    Technology & Electronics
+                  </h3>
+
+                  <h4 className="text-sm sm:text-base font-bold text-neutral-800 leading-snug">
+                    Bringing Innovation Closer Through Creativity
+                  </h4>
+
+                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                    In a technology-driven world, innovation needs communication that resonates. We help technology brands showcase their products, highlight their innovations and build stronger connections with digitally connected audiences.
+                  </p>
+
+                  {/* Brand Logos Row */}
+                  <div className="pt-4 flex flex-wrap items-center gap-6">
+                    <VivoLogo />
+                    <RealmeLogo />
+                  </div>
+                </div>
+
+                {/* Right Visual Cards (2 Columns) */}
+                <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  {/* Card 1: vivo Card */}
+                  <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-[#0c1a3b] to-[#172554] text-white flex flex-col justify-between shadow-md border border-blue-900 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="p-5 flex items-start justify-between gap-3">
+                      <div className="space-y-1">
+                        <span className="font-black lowercase tracking-widest text-lg text-[#38bdf8] block">
+                          vivo
+                        </span>
+                        <div className="text-xs font-mono font-bold tracking-widest text-white uppercase pt-1">
+                          V SERIES
+                        </div>
+                        <p className="text-[10px] text-blue-200/80 font-normal leading-tight pt-0.5">
+                          Delight Every Moment
+                        </p>
+                      </div>
+
+                      <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-blue-400/20 bg-black">
+                        <img
+                          src="/src/assets/images/tech_smartphone_flagship_1791692220454.jpg"
+                          alt="vivo flagship smartphone"
+                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card 2: realme DARE TO LEAP Card */}
+                  <div className="rounded-2xl overflow-hidden bg-[#0d0e12] text-white flex flex-col justify-between shadow-md border border-neutral-800 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="p-4 flex items-center justify-between border-b border-white/10 bg-black/40">
+                      <span className="font-extrabold text-sm text-[#ffc915] lowercase tracking-tight">
+                        realme
+                      </span>
+                      <span className="text-[10px] font-mono font-black tracking-widest text-white uppercase">
+                        DARE TO LEAP
+                      </span>
+                    </div>
+
+                    <div className="h-32 sm:h-36 overflow-hidden relative bg-black">
+                      <img
+                        src="/src/assets/images/realme_yellow_smartphone_1791692295213.jpg"
+                        alt="realme yellow smartphone spotlight"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            {/* ------------------------------------------------------ */}
+            {/* ROW 05: Health, Wellness & Nutrition                   */}
+            {/* ------------------------------------------------------ */}
+            <div className="p-6 sm:p-10 lg:p-12 hover:bg-white transition-colors">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                
+                {/* Left Text Column */}
+                <div className="lg:col-span-5 text-left space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-700 tracking-wider">
+                    <span>05</span>
+                    <span className="w-6 h-[1.5px] bg-neutral-400" />
+                  </div>
+                  
+                  <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-neutral-900 tracking-tight">
+                    Health, Wellness & Nutrition
+                  </h3>
+
+                  <h4 className="text-sm sm:text-base font-bold text-neutral-800 leading-snug">
+                    Inspiring Healthier Choices Through Meaningful Stories
+                  </h4>
+
+                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                    Wellness is becoming an essential part of everyday living. We work with health and wellness brands to communicate their purpose through relatable storytelling, engaging content and consumer-focused digital experiences.
+                  </p>
+
+                  {/* Brand Logos Row */}
+                  <div className="pt-4 flex flex-wrap items-center gap-6">
+                    <VicksLogo />
+                    <PlantBasedSugarControlLogo />
+                  </div>
+                </div>
+
+                {/* Right Visual Cards (2 Columns) */}
+                <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  {/* Card 1: Vicks Teal Card */}
+                  <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-[#0c2f35] to-[#134e56] text-white flex flex-col justify-between shadow-md border border-teal-800 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="p-5 flex items-start justify-between gap-3">
+                      <div className="space-y-1.5">
+                        <VicksLogo />
+                        <div className="text-xs sm:text-sm font-semibold text-teal-100 pt-2 leading-snug">
+                          Feel Better<br />Breathe Easier
+                        </div>
+                      </div>
+
+                      <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-teal-400/20 bg-black">
+                        <img
+                          src="/src/assets/images/vicks_wellness_jar_1791692262273.jpg"
+                          alt="Vicks herbal balm and eucalyptus"
+                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card 2: Plant-Based Sugar Control Card */}
+                  <div className="rounded-2xl overflow-hidden bg-[#f4eee4] text-neutral-900 flex flex-col justify-between shadow-md border border-amber-200/60 group hover:shadow-xl transition-shadow min-h-[220px]">
+                    <div className="p-3 bg-white/80 border-b border-amber-200/50 flex flex-col items-center justify-center text-center">
+                      <PlantBasedSugarControlLogo />
+                      <span className="text-[10px] text-emerald-800 font-medium mt-0.5">
+                        Goodness of Nature. For a Healthier You.
+                      </span>
+                    </div>
+
+                    <div className="h-32 sm:h-36 overflow-hidden relative">
+                      <img
+                        src="/src/assets/images/sugar_control_seeds_1791692273790.jpg"
+                        alt="Plant seeds and holistic nutrition"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
           </div>
-        </motion.div>
-      </div>
 
-      {/* Simulated Video / Reel Player Modal */}
-      {selectedVideoModal && (
-        <div
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200"
-          onClick={() => setSelectedVideoModal(null)}
-        >
-          <div
-            className="relative max-w-lg w-full rounded-3xl bg-[#15161e] border border-white/20 p-6 overflow-hidden shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-bold text-white uppercase tracking-wider">
-                  Live Reel Preview: {selectedVideoModal.brandName}
-                </span>
-              </div>
-              <button
-                onClick={() => setSelectedVideoModal(null)}
-                aria-label="Close video preview modal"
-                className="text-neutral-400 hover:text-white p-1"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Video Frame */}
-            <div className="aspect-[9/16] max-h-[500px] mx-auto rounded-2xl overflow-hidden relative bg-black border border-white/10">
+          {/* ======================================================== */}
+          {/* 3. BOTTOM EXPERIENCE BANNER (MISTY DAWN MOUNTAINS)       */}
+          {/* ======================================================== */}
+          <div className="relative bg-[#11131a] text-white overflow-hidden p-6 sm:p-10 lg:p-12 border-t border-neutral-300">
+            
+            {/* Background Panorama */}
+            <div className="absolute inset-0 pointer-events-none opacity-45">
               <img
-                src={selectedVideoModal.videoThumbnail}
-                alt="Reel Preview"
-                className="w-full h-full object-cover"
+                src="/src/assets/images/misty_dawn_mountains_1791692380811.jpg"
+                alt="Serene mountain landscape at sunrise"
+                className="w-full h-full object-cover object-center"
+                referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
-
-              {/* Top Icons */}
-              <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-white text-xs">
-                <span className="bg-black/60 px-2 py-0.5 rounded font-mono text-[10px]">
-                  {selectedVideoModal.platforms.join(' / ')}
-                </span>
-                <Volume2 className="w-4 h-4" />
-              </div>
-
-              {/* Bottom Details inside reel */}
-              <div className="absolute bottom-4 left-4 right-4 text-left space-y-2">
-                <div className="text-sm font-bold text-white">
-                  {selectedVideoModal.brandName} — {selectedVideoModal.title}
-                </div>
-                <p className="text-xs text-neutral-300 leading-snug">
-                  {selectedVideoModal.campaignHighlight}
-                </p>
-                <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
-                  <span className="font-bold text-white" style={{ color: themeConfig.accent }}>
-                    {selectedVideoModal.resultStat}
-                  </span>
-                  <span className="text-[11px] text-neutral-300">
-                    {selectedVideoModal.duration}
-                  </span>
-                </div>
-              </div>
             </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0d0f17]/95 via-[#0d0f17]/85 to-[#0d0f17]/90 pointer-events-none" />
 
-            {/* Modal Action CTA */}
-            <div className="mt-4 flex items-center justify-between">
-              <div className="text-xs text-neutral-400">
-                End-to-end directed by CREATOR HAI • Best Influencer Agency
+            <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center text-left">
+              
+              {/* Column 1: Left Headline */}
+              <div className="md:col-span-4 space-y-1">
+                <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.25em] text-amber-300 uppercase block">
+                  OUR INDUSTRY EXPERIENCE
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-white leading-tight">
+                  Different Industries.<br />One Creative Vision.
+                </h3>
               </div>
-              <a
-                href={selectedVideoModal.liveContentUrl || 'https://instagram.com'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5"
-                style={{
-                  backgroundColor: themeConfig.accent,
-                  color: themeConfig.accentBtnText,
-                }}
-              >
-                <span>Open Live Platform</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+
+              {/* Column 2: Center Philosophy (with vertical border on md) */}
+              <div className="md:col-span-5 md:border-l md:border-white/20 md:pl-8 space-y-2">
+                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-normal">
+                  Our experience across industries allows us to understand diverse audiences, adapt to changing trends and create brand communication that makes an impact.
+                </p>
+                <div className="text-xs sm:text-sm font-bold text-white">
+                  Because every brand has a story worth telling.
+                </div>
+              </div>
+
+              {/* Column 3: 4 Pillars with Icons */}
+              <div className="md:col-span-3 md:border-l md:border-white/20 md:pl-8 grid grid-cols-2 gap-3 text-xs">
+                <div className="flex items-center gap-2 text-neutral-200">
+                  <Compass className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span className="font-semibold">Strategy</span>
+                </div>
+                <div className="flex items-center gap-2 text-neutral-200">
+                  <PenTool className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span className="font-semibold">Content</span>
+                </div>
+                <div className="flex items-center gap-2 text-neutral-200">
+                  <Megaphone className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span className="font-semibold">Campaigns</span>
+                </div>
+                <div className="flex items-center gap-2 text-neutral-200">
+                  <TrendingUp className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span className="font-semibold">Growth</span>
+                </div>
+              </div>
+
             </div>
           </div>
+
         </div>
-      )}
+
+        {/* Floating Representational Notice Card & Pitch Deck trigger below the poster */}
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-[#111219]/90 border border-white/10 text-xs text-neutral-400 text-left">
+          <div className="flex items-center gap-2.5">
+            <Info className="w-4 h-4 text-amber-400 shrink-0" />
+            <span>
+              All brand names, trademarks, and category showcases above represent CreatorHai's multi-industry creative frameworks and campaign models.
+            </span>
+          </div>
+          <button
+            onClick={openRepresentationalModal}
+            className="text-amber-300 hover:text-white font-semibold underline shrink-0 cursor-pointer transition-colors"
+          >
+            Representational Standards →
+          </button>
+        </div>
+
+      </div>
     </section>
   );
 };
