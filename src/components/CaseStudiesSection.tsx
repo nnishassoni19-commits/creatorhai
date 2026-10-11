@@ -26,6 +26,20 @@ import {
   VicksLogo,
   PlantBasedSugarControlLogo
 } from './IndustryLogos';
+import {
+  brandsIndustriesHeroBanner,
+  edtechStudentHeadphones,
+  simplilearnLaptopDesk,
+  colgateSmileToothbrush,
+  spicesIndianEverest,
+  fashionIndianEthnic,
+  bibaEthnicYellow,
+  techSmartphoneFlagship,
+  realmeYellowSmartphone,
+  vicksWellnessJar,
+  sugarControlSeeds,
+  mistyDawnMountains,
+} from '../assets/images';
 
 export const CaseStudiesSection: React.FC = () => {
   const { themeConfig, openInquiryModal, setIsDeckMode, openRepresentationalModal } = useAgency();
@@ -53,7 +67,7 @@ export const CaseStudiesSection: React.FC = () => {
             {/* Background Image / Ambient Gradient */}
             <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-screen">
               <img
-                src="/src/assets/images/brands_industries_hero_banner_1791692336474.jpg"
+                src={brandsIndustriesHeroBanner}
                 alt="Industries Composite Banner"
                 className="w-full h-full object-cover object-center"
                 referrerPolicy="no-referrer"
@@ -173,7 +187,7 @@ export const CaseStudiesSection: React.FC = () => {
 
                       <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-white/10">
                         <img
-                          src="/src/assets/images/edtech_student_headphones_1791692174554.jpg"
+                          src={edtechStudentHeadphones}
                           alt="Student wearing headphones learning online"
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                           referrerPolicy="no-referrer"
@@ -186,7 +200,7 @@ export const CaseStudiesSection: React.FC = () => {
                   <div className="rounded-2xl overflow-hidden bg-white text-neutral-900 flex flex-col justify-between shadow-md border border-neutral-200 group hover:shadow-xl transition-shadow min-h-[220px]">
                     <div className="h-32 sm:h-36 overflow-hidden relative bg-neutral-100">
                       <img
-                        src="/src/assets/images/simplilearn_laptop_desk_1791692284832.jpg"
+                        src={simplilearnLaptopDesk}
                         alt="Simplilearn digital masterclass on laptop"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
@@ -253,7 +267,7 @@ export const CaseStudiesSection: React.FC = () => {
 
                       <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-white/20">
                         <img
-                          src="/src/assets/images/colgate_smile_toothbrush_1791692187659.jpg"
+                          src={colgateSmileToothbrush}
                           alt="Smiling woman holding toothbrush"
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                           referrerPolicy="no-referrer"
@@ -267,7 +281,7 @@ export const CaseStudiesSection: React.FC = () => {
                     <div className="p-4 flex items-center justify-between border-b border-amber-900/40 bg-black/20">
                       <div className="flex items-center gap-2">
                         <span className="px-2 py-0.5 rounded bg-red-600 font-black text-[10px] text-white tracking-widest uppercase">
-                          EVEREST
+                           EVEREST
                         </span>
                         <span className="text-xs font-serif font-bold text-amber-200">Masala</span>
                       </div>
@@ -278,7 +292,7 @@ export const CaseStudiesSection: React.FC = () => {
 
                     <div className="h-32 sm:h-36 overflow-hidden relative">
                       <img
-                        src="/src/assets/images/spices_indian_everest_1791692250990.jpg"
+                        src={spicesIndianEverest}
                         alt="Indian culinary spices bowls"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
@@ -339,7 +353,7 @@ export const CaseStudiesSection: React.FC = () => {
 
                       <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-purple-400/20">
                         <img
-                          src="/src/assets/images/fashion_indian_ethnic_1791692199403.jpg"
+                          src={fashionIndianEthnic}
                           alt="Indian festive purple embroidered silk fashion"
                           className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                           referrerPolicy="no-referrer"
@@ -363,7 +377,7 @@ export const CaseStudiesSection: React.FC = () => {
 
                       <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-amber-400/20">
                         <img
-                          src="/src/assets/images/biba_ethnic_yellow_1791692210304.jpg"
+                          src={bibaEthnicYellow}
                           alt="Indian yellow ethnic festive kurti"
                           className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                           referrerPolicy="no-referrer"
@@ -428,7 +442,7 @@ export const CaseStudiesSection: React.FC = () => {
 
                       <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-blue-400/20 bg-black">
                         <img
-                          src="/src/assets/images/tech_smartphone_flagship_1791692220454.jpg"
+                          src={techSmartphoneFlagship}
                           alt="vivo flagship smartphone"
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                           referrerPolicy="no-referrer"
@@ -450,7 +464,7 @@ export const CaseStudiesSection: React.FC = () => {
 
                     <div className="h-32 sm:h-36 overflow-hidden relative bg-black">
                       <img
-                        src="/src/assets/images/realme_yellow_smartphone_1791692295213.jpg"
+                        src={realmeYellowSmartphone}
                         alt="realme yellow smartphone spotlight"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
@@ -509,7 +523,7 @@ export const CaseStudiesSection: React.FC = () => {
 
                       <div className="w-28 sm:w-32 h-28 sm:h-32 rounded-xl overflow-hidden shrink-0 shadow-lg border border-teal-400/20 bg-black">
                         <img
-                          src="/src/assets/images/vicks_wellness_jar_1791692262273.jpg"
+                          src={vicksWellnessJar}
                           alt="Vicks herbal balm and eucalyptus"
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                           referrerPolicy="no-referrer"
@@ -529,7 +543,7 @@ export const CaseStudiesSection: React.FC = () => {
 
                     <div className="h-32 sm:h-36 overflow-hidden relative">
                       <img
-                        src="/src/assets/images/sugar_control_seeds_1791692273790.jpg"
+                        src={sugarControlSeeds}
                         alt="Plant seeds and holistic nutrition"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
@@ -551,7 +565,7 @@ export const CaseStudiesSection: React.FC = () => {
             {/* Background Panorama */}
             <div className="absolute inset-0 pointer-events-none opacity-45">
               <img
-                src="/src/assets/images/misty_dawn_mountains_1791692380811.jpg"
+                src={mistyDawnMountains}
                 alt="Serene mountain landscape at sunrise"
                 className="w-full h-full object-cover object-center"
                 referrerPolicy="no-referrer"

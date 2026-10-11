@@ -1,4 +1,10 @@
 import { CaseStudy, CategoryExperience, ContactInfo } from '../types';
+import {
+  indianCreatorTech,
+  indianCreatorComedy,
+  indianCreatorFinance,
+  indianCreatorFashion,
+} from '../assets/images';
 
 export const initialCaseStudies: CaseStudy[] = [
   {
@@ -43,28 +49,28 @@ export const initialCaseStudies: CaseStudy[] = [
         handle: '@rohan_govprep',
         followers: '185K',
         views: '320K',
-        image: '/src/assets/images/indian_creator_tech_1791703847629.jpg'
+        image: indianCreatorTech,
       },
       {
         name: 'Pooja Verma',
         handle: '@careerwithpooja',
         followers: '92K',
         views: '210K',
-        image: '/src/assets/images/indian_creator_comedy_1791703885292.jpg'
+        image: indianCreatorComedy,
       },
       {
         name: 'Amit Tyagi',
         handle: '@aspirant_guide',
         followers: '140K',
         views: '290K',
-        image: '/src/assets/images/indian_creator_finance_1791703907870.jpg'
+        image: indianCreatorFinance,
       },
       {
         name: 'Simran Kaur',
         handle: '@studysmart_simran',
         followers: '210K',
         views: '380K',
-        image: '/src/assets/images/indian_creator_fashion_1791703826710.jpg'
+        image: indianCreatorFashion,
       }
     ],
     liveContentUrl: 'https://creatorhai.com/case-studies/the-sarkari-rise',

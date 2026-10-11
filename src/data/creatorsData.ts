@@ -1,3 +1,12 @@
+import {
+  indianCreatorFashion,
+  indianCreatorTech,
+  indianCreatorComedy,
+  indianCreatorFinance,
+  indianCreatorBeauty,
+  indianCreatorFitness,
+} from '../assets/images';
+
 export interface IndianCreator {
   id: string;
   name: string;
@@ -25,7 +34,7 @@ export const indianCreatorsRoster: IndianCreator[] = [
     handle: '@kavyasinghania.style',
     category: 'Fashion & Lifestyle',
     categoryKey: 'fashion',
-    image: '/src/assets/images/indian_creator_fashion_1791703826710.jpg',
+    image: indianCreatorFashion,
     followers: '2.8M',
     avgViews: '1.9M',
     engagementRate: '8.4%',
@@ -44,7 +53,7 @@ export const indianCreatorsRoster: IndianCreator[] = [
     handle: '@aaravtechtalks',
     category: 'Tech & Gadgets',
     categoryKey: 'tech',
-    image: '/src/assets/images/indian_creator_tech_1791703847629.jpg',
+    image: indianCreatorTech,
     followers: '4.2M',
     avgViews: '3.1M',
     engagementRate: '9.8%',
@@ -63,7 +72,7 @@ export const indianCreatorsRoster: IndianCreator[] = [
     handle: '@pooja.unfiltered',
     category: 'Comedy & Entertainment',
     categoryKey: 'comedy',
-    image: '/src/assets/images/indian_creator_comedy_1791703885292.jpg',
+    image: indianCreatorComedy,
     followers: '3.5M',
     avgViews: '2.6M',
     engagementRate: '11.2%',
@@ -82,7 +91,7 @@ export const indianCreatorsRoster: IndianCreator[] = [
     handle: '@vikram.finpulse',
     category: 'Finance & EdTech',
     categoryKey: 'finance',
-    image: '/src/assets/images/indian_creator_finance_1791703907870.jpg',
+    image: indianCreatorFinance,
     followers: '1.9M',
     avgViews: '1.4M',
     engagementRate: '7.6%',
@@ -101,7 +110,7 @@ export const indianCreatorsRoster: IndianCreator[] = [
     handle: '@rheaglows.india',
     category: 'Beauty & Skincare',
     categoryKey: 'beauty',
-    image: '/src/assets/images/indian_creator_beauty_1791703936633.jpg',
+    image: indianCreatorBeauty,
     followers: '1.6M',
     avgViews: '1.2M',
     engagementRate: '9.4%',
@@ -120,7 +129,7 @@ export const indianCreatorsRoster: IndianCreator[] = [
     handle: '@kabir_fitculture',
     category: 'Fitness & Wellness',
     categoryKey: 'fitness',
-    image: '/src/assets/images/indian_creator_fitness_1791703995264.jpg',
+    image: indianCreatorFitness,
     followers: '1.4M',
     avgViews: '980K',
     engagementRate: '10.5%',

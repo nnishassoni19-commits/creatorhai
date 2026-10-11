@@ -19,6 +19,13 @@ import {
   Play
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
+import {
+  edtechStudentHeadphones,
+  colgateSmileToothbrush,
+  fashionIndianEthnic,
+  techSmartphoneFlagship,
+  vicksWellnessJar,
+} from '../assets/images';
 
 export const PitchDeckModal: React.FC = () => {
   const {
@@ -264,7 +271,7 @@ export const PitchDeckModal: React.FC = () => {
                     cat: 'EDTECH & EDUCATION',
                     h: 'Making Learning More Relatable',
                     refs: 'upGrad | Simplilearn',
-                    img: '/src/assets/images/edtech_student_headphones_1791692174554.jpg',
+                    img: edtechStudentHeadphones,
                     color: '#38bdf8'
                   },
                   {
@@ -272,7 +279,7 @@ export const PitchDeckModal: React.FC = () => {
                     cat: 'FMCG & CONSUMER GOODS',
                     h: 'Making Everyday Brands More Memorable',
                     refs: 'Colgate | Everest Masala',
-                    img: '/src/assets/images/colgate_smile_toothbrush_1791692187659.jpg',
+                    img: colgateSmileToothbrush,
                     color: '#f87171'
                   },
                   {
@@ -280,7 +287,7 @@ export const PitchDeckModal: React.FC = () => {
                     cat: 'FASHION & LIFESTYLE',
                     h: 'Turning Style Into Stories',
                     refs: 'Libas | Biba',
-                    img: '/src/assets/images/fashion_indian_ethnic_1791692199403.jpg',
+                    img: fashionIndianEthnic,
                     color: '#ec4899'
                   },
                   {
@@ -288,7 +295,7 @@ export const PitchDeckModal: React.FC = () => {
                     cat: 'TECHNOLOGY & ELECTRONICS',
                     h: 'Bringing Innovation Closer Through Creativity',
                     refs: 'Vivo | realme',
-                    img: '/src/assets/images/tech_smartphone_flagship_1791692220454.jpg',
+                    img: techSmartphoneFlagship,
                     color: '#60a5fa'
                   },
                   {
@@ -296,7 +303,7 @@ export const PitchDeckModal: React.FC = () => {
                     cat: 'HEALTH, WELLNESS & NUTRITION',
                     h: 'Inspiring Everyday Wellness',
                     refs: 'Vicks | Plant-Based Sugar Control',
-                    img: '/src/assets/images/vicks_wellness_jar_1791692262273.jpg',
+                    img: vicksWellnessJar,
                     color: '#34d399'
                   },
                 ].map((item) => (

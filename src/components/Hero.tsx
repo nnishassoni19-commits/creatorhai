@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useAgency } from '../context/AgencyContext';
 import { ArrowDown, Sparkles, Play, ShieldCheck, Video, Users, TrendingUp, Layers, MessageCircle, ArrowRight } from 'lucide-react';
+import {
+  indianCreatorFashion,
+  indianCreatorTech,
+  indianCreatorComedy,
+  indianCreatorFinance,
+  indianCreatorBeauty,
+} from '../assets/images';
 
 const heroCreators = [
   {
@@ -9,7 +16,7 @@ const heroCreators = [
     handle: '@kavyasinghania.style',
     category: 'Fashion & Style',
     reach: '2.8M Reach',
-    image: '/src/assets/images/indian_creator_fashion_1791703826710.jpg',
+    image: indianCreatorFashion,
     tag: 'Libas Festive Collab',
     quote: '"Styling contemporary ethnic Indo-western looks driving 14M impressions."'
   },
@@ -18,7 +25,7 @@ const heroCreators = [
     handle: '@aaravtechtalks',
     category: 'Tech & Gadgets',
     reach: '4.2M Reach',
-    image: '/src/assets/images/indian_creator_tech_1791703847629.jpg',
+    image: indianCreatorTech,
     tag: 'Vivo Flagship Unbox',
     quote: '"Real camera breakdown and benchmark reviews for flagship launch day."'
   },
@@ -27,7 +34,7 @@ const heroCreators = [
     handle: '@pooja.unfiltered',
     category: 'Comedy & Pop Culture',
     reach: '3.5M Reach',
-    image: '/src/assets/images/indian_creator_comedy_1791703885292.jpg',
+    image: indianCreatorComedy,
     tag: 'Swiggy Desi Moments',
     quote: '"High-relatability comedic sketches generating 8.2M organic views."'
   },
@@ -36,7 +43,7 @@ const heroCreators = [
     handle: '@vikram.finpulse',
     category: 'Finance & Upskilling',
     reach: '1.9M Reach',
-    image: '/src/assets/images/indian_creator_finance_1791703907870.jpg',
+    image: indianCreatorFinance,
     tag: 'The Sarkari Rise',
     quote: '"Reaching high-intent career aspirants, driving 1M+ views in 14 days."'
   }
@@ -232,27 +239,27 @@ export const Hero: React.FC = () => {
                   <div className="flex -space-x-2.5 overflow-hidden">
                     <img
                       className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
-                      src="/src/assets/images/indian_creator_fashion_1791703826710.jpg"
+                      src={indianCreatorFashion}
                       alt="Indian Creator Kavya"
                     />
                     <img
                       className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
-                      src="/src/assets/images/indian_creator_tech_1791703847629.jpg"
+                      src={indianCreatorTech}
                       alt="Indian Creator Aarav"
                     />
                     <img
                       className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
-                      src="/src/assets/images/indian_creator_comedy_1791703885292.jpg"
+                      src={indianCreatorComedy}
                       alt="Indian Creator Pooja"
                     />
                     <img
                       className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
-                      src="/src/assets/images/indian_creator_finance_1791703907870.jpg"
+                      src={indianCreatorFinance}
                       alt="Indian Creator Vikram"
                     />
                     <img
                       className="inline-block h-8 w-8 rounded-full ring-2 ring-neutral-900 object-cover"
-                      src="/src/assets/images/indian_creator_beauty_1791703936633.jpg"
+                      src={indianCreatorBeauty}
                       alt="Indian Creator Rhea"
                     />
                   </div>
